@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>smoo reach // core</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FIREBASE SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* === CORPORATE MINIMALISM - AURORA MESH (HYPER FAST WAVE x10) === */
+        :root {
+            --bg-base: #02040a; 
+            --blob-1: #1E3A8A;
+            --blob-2: #2563EB;
+            --blob-3: #3B82F6;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --text-main: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* HYPER FAST WAVE AURORA BACKGROUND (x10 Faster) */
+        .aurora-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -4; 
+            background: linear-gradient(120deg, #02040a, #0a1329, #020817, #02040a);
+            background-size: 300% 300%;
+            animation: fastGradientShift 1.5s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes fastGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(80px);
+            animation: fastWave 1.2s infinite alternate ease-in-out;
+        }
+        .blob-1 { width: 50vw; height: 50vw; background: var(--blob-1); top: -10%; left: -10%; opacity: 0.6; }
+        .blob-2 { width: 60vw; height: 60vw; background: var(--blob-2); bottom: -15%; right: -10%; animation-delay: -0.4s; opacity: 0.5; }
+        .blob-3 { width: 45vw; height: 45vw; background: var(--blob-3); top: 30%; left: 30%; animation-delay: -0.8s; opacity: 0.4; }
+        
+        @keyframes fastWave {
+            0% { transform: translate(0, 0) scale(1) skew(0deg); }
+            100% { transform: translate(5vw, 2vh) scale(1.05) skew(2deg); }
+        }
+
+        /* NOISE OVERLAY */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.12; mix-blend-mode: soft-light; pointer-events: none;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
+        .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
+
+        /* LAYOUT & COMPONENTS */
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
+
+        button {
+            font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase;
+            letter-spacing: 0.08em; font-weight: 500; background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px; padding: 12px 24px; cursor: pointer;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            backdrop-filter: blur(12px);
+        }
+        button svg { width: 14px; height: 14px; fill: currentColor; }
+        button:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); transform: translateY(-1px); }
+
+        input, select, textarea {
+            font-family: 'Inter', sans-serif; font-size: 13px; background: rgba(0, 0, 0, 0.3);
+            color: var(--text-main); border: var(--glass-border); border-radius: 12px;
+            padding: 12px 16px; width: 100%; margin-bottom: 10px;
+            backdrop-filter: blur(12px); outline: none; transition: all 0.3s ease;
+        }
+        textarea { resize: vertical; min-height: 60px; }
+        input:focus, select:focus, textarea:focus { border-color: rgba(255, 255, 255, 0.4); background: rgba(0,0,0,0.5); }
+        input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+        /* CARDS & PANELS */
+        .card, .modal-content, .side-panel, .dropdown-content {
+            background: var(--glass-bg); border: var(--glass-border);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        /* HEADER */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 32px; margin-bottom: 50px; position: sticky; top: 20px; z-index: 50;
+            background: rgba(2, 4, 10, 0.5); backdrop-filter: blur(25px);
+            border: var(--glass-border); border-radius: 999px;
+        }
+        .logo-text { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; }
+        nav { display: flex; gap: 10px; align-items: center; }
+
+        /* USER DROPDOWN */
+        .user-dropdown { position: relative; display: inline-block; }
+        .user-btn { display: flex; align-items: center; gap: 12px; padding: 10px 20px; background: transparent; border: none; }
+        .user-btn:hover { background: rgba(255,255,255,0.05); }
+        .dropdown-content { display: none; position: absolute; right: 0; top: calc(100% + 15px); min-width: 260px; padding: 12px; z-index: 100; max-height: 60vh; overflow-y:auto; }
+        .dropdown-content.show { display: block; animation: fadeIn 0.2s ease-out; }
+        .dropdown-item { padding: 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: 0.2s; border: 1px solid transparent; }
+        .dropdown-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.1); }
+        .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
+
+        /* LOCK SCREEN */
+        .core-area { position: relative; min-height: 65vh; }
+        .lock-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 4, 10, 0.8); backdrop-filter: blur(30px);
+            border-radius: 24px; border: var(--glass-border);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 40; text-align: center;
+        }
+        .lock-overlay.hidden { display: none; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CLIENTS LIST VIEW */
+        .search-box { display: flex; gap: 12px; margin-bottom: 35px; align-items: center; flex-wrap: wrap; }
+        .search-box input { margin: 0; flex: 2; min-width: 200px; border-radius: 999px; }
+        .search-box select { margin: 0; flex: 1; min-width: 150px; border-radius: 999px; }
+        .client-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 30px; margin-bottom: 12px; background: var(--glass-bg);
+            border: var(--glass-border); border-radius: 20px; backdrop-filter: blur(25px);
+            transition: all 0.3s ease;
+        }
+        .client-list-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); }
+        .client-id { font-size: 11px; color: rgba(255,255,255,0.4); margin-right: 15px; font-family: monospace; }
+        .client-cat-badge { font-size: 10px; text-transform: uppercase; padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 999px; margin-left: 15px; }
+        
+        /* TASK BOARD */
+        .task-board-wrapper { overflow-x: auto; padding-bottom: 20px; }
+        .task-board-table { width: 100%; border-collapse: collapse; min-width: 1200px; }
+        .task-board-table th { background: rgba(255,255,255,0.05); padding: 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); border-bottom: var(--glass-border); }
+        .task-board-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+        .task-board-table input, .task-board-table select { margin: 0; padding: 8px 10px; font-size: 12px; border-radius: 6px; }
+        .progress-bar-bg { background: rgba(255,255,255,0.1); border-radius: 999px; height: 8px; width: 100%; overflow: hidden; margin-top: 5px; }
+        .progress-bar-fill { height: 100%; background: #3B82F6; transition: width 0.3s ease; }
+
+        /* SIDE PANEL */
+        .side-panel {
+            position: fixed; top: 0; right: -750px; width: 100%; max-width: 700px; height: 100vh;
+            z-index: 200; padding: 30px; overflow-y: auto; transition: right 0.4s ease;
+            border-radius: 24px 0 0 24px; border-left: var(--glass-border);
+        }
+        .side-panel.open { right: 0; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px; margin-bottom: 30px; }
+        
+        /* CALENDAR GRID UI */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 20px; }
+        .cal-head { text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); padding-bottom: 10px; }
+        .calendar-day {
+            background: rgba(0,0,0,0.2); border: var(--glass-border); border-radius: 12px;
+            min-height: 100px; padding: 10px; display: flex; flex-direction: column; gap: 5px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .calendar-day:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
+        .calendar-day.empty { background: transparent; border: none; cursor: default; }
+        .day-num { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 5px; }
+        .task-chip {
+            background: rgba(37, 99, 235, 0.2); border: 1px solid rgba(37, 99, 235, 0.4);
+            border-radius: 6px; padding: 4px 6px; font-size: 10px; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: 0.2s; margin-bottom: 2px;
+        }
+        .task-chip:hover { background: rgba(37, 99, 235, 0.4); }
+
+        /* INVOICES */
+        .invoice-card { padding: 40px; }
+        .inv-item-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr auto; gap: 12px; margin-bottom: 12px; align-items: center; }
+
+        /* AVATARS (20 Total) */
+        .avatar-box { width: 36px; height: 36px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid rgba(255,255,255,0.2); background-color: #050a15; }
+        .avatar-box.selected { border-color: #fff; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        
+        .av-1 { background-image: linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 8px 8px; }
+        .av-2 { background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 6px 6px; }
+        .av-3 { background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.15) 4px, rgba(255,255,255,0.15) 8px); }
+        .av-4 { background-image: repeating-radial-gradient(circle at center, transparent, transparent 4px, rgba(255,255,255,0.15) 4px, rgba(255,255,255,0.15) 8px); }
+        .av-5 { background-image: linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 12px 12px; }
+        .av-6 { background-image: repeating-linear-gradient(90deg, rgba(45, 91, 255, 0.4), rgba(45, 91, 255, 0.4) 2px, transparent 2px, transparent 6px); }
+        .av-7 { background-image: conic-gradient(rgba(255,255,255,0.1) 90deg, transparent 90deg, transparent 180deg, rgba(255,255,255,0.1) 180deg, rgba(255,255,255,0.1) 270deg, transparent 270deg); background-size: 12px 12px; }
+        .av-8 { background: linear-gradient(180deg, transparent 45%, rgba(255,255,255,0.5) 45%, rgba(255,255,255,0.5) 55%, transparent 55%); }
+        .av-9 { background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 2px, transparent 2px, transparent 8px); }
+        .av-10 { background: radial-gradient(circle, rgba(255,255,255,0.8) 10%, transparent 10%, transparent 30%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.4) 40%, transparent 40%); }
+        .av-11 { background: radial-gradient(circle at top left, #1E3A8A, #3B82F6); }
+        .av-12 { background-image: linear-gradient(rgba(59, 130, 246, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.4) 1px, transparent 1px); background-size: 6px 6px; }
+        .av-13 { background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(37, 99, 235, 0.3) 4px, rgba(37, 99, 235, 0.3) 8px); }
+        .av-14 { background: linear-gradient(135deg, #0f172a, #1d4ed8); }
+        .av-15 { background: conic-gradient(from 45deg, #1e3a8a, #3b82f6, #1e3a8a); }
+        .av-16 { background-image: radial-gradient(rgba(59, 130, 246, 0.6) 1px, transparent 1px); background-size: 8px 8px; }
+        .av-17 { background: linear-gradient(180deg, #1e40af 0%, transparent 100%); }
+        .av-18 { background-image: repeating-radial-gradient(circle at center, #1e3a8a, #1e3a8a 4px, transparent 4px, transparent 8px); }
+        .av-19 { background: radial-gradient(circle, #60a5fa 10%, transparent 10%, transparent 30%, #2563eb 30%, #2563eb 40%, transparent 40%); }
+        .av-20 { background: linear-gradient(45deg, #020617, #1e40af, #3b82f6); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 300; justify-content: center; align-items: center; backdrop-filter: blur(15px); }
+        .modal-content { padding: 40px; width: 90%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+        
+        .status-timeline { margin: 15px 0; padding-left: 15px; border-left: 1px solid rgba(255,255,255,0.1); }
+        .status-item { font-size: 11px; margin-bottom: 8px; color: rgba(255,255,255,0.8); }
+        .input-group { display: none; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: var(--glass-border); margin-top:15px; }
+        .input-group.active { display: block; }
+
+        /* PRINT STYLES */
+        .print-container { display: none; padding: 40px; background: white; color: black; font-family: 'Inter', sans-serif; position: absolute; top:0; left:0; width: 100%; min-height: 100vh; z-index: 9999; }
+        .print-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .print-table th, .print-table td { border: 1px solid #ccc; padding: 12px; text-align: left; font-size: 12px; vertical-align: top; }
+        .print-table th { background: #f9f9f9; text-transform: uppercase; letter-spacing: 0.05em; color: #333; }
+        
+        /* PDF CALENDAR SPECIFIC */
+        .pdf-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 20px; }
+        .pdf-cal-head { background: #eee; padding: 8px; text-align: center; font-size: 12px; font-weight: 600; border: 1px solid #ccc; }
+        .pdf-cal-day { border: 1px solid #ccc; min-height: 120px; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+        .pdf-day-num { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .pdf-task { background: #f0f4ff; border-left: 3px solid #3b82f6; padding: 6px; font-size: 10px; border-radius: 4px; }
+        .pdf-idea { font-style: italic; color: #555; margin-top: 4px; font-size: 9px; }
+
+        @media print {
+            body > *:not(.print-container) { display: none !important; }
+            body.print-mode-invoice #invoice-print-area { display: block !important; }
+            body.print-mode-grid #grid-print-area { display: block !important; }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .container { padding: 20px 10px; }
+            header { flex-direction: column; align-items: stretch; padding: 20px; border-radius: 20px; gap: 15px; margin-bottom: 30px; }
+            .logo-text { text-align: center; }
+            nav { justify-content: center; flex-wrap: wrap; }
+            .user-dropdown { align-self: center; }
+            .search-box { flex-direction: column; align-items: stretch; }
+            .search-box input, .search-box select, .search-box button { width: 100%; flex: none; }
+            .client-list-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 20px; }
+            .client-list-item > div { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+            .client-list-item button { width: 100%; }
+            .side-panel { padding: 20px; right: -100vw; max-width: 100vw; border-radius: 0; }
+            .invoice-card { padding: 20px; }
+            .inv-item-row { grid-template-columns: 1fr; gap: 10px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: var(--glass-border); }
+            .modal-content { padding: 25px; width: 95%; }
+            .calendar-day { min-height: 70px; padding: 5px; }
+            .day-num { font-size: 11px; }
+            .task-chip { font-size: 9px; padding: 3px; }
+            .cal-head { font-size: 8px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- BACKGROUNDS -->
+    <div class="aurora-bg">
+        <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo-text">smoo reach</div>
+            <nav>
+                <button onclick="switchTab('tab-clients')">
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> clients
+                </button>
+                <button onclick="switchTab('tab-taskboard')">
+                    <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm4 4h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/></svg> task board
+                </button>
+                <button onclick="switchTab('tab-invoice')">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> invoices
+                </button>
+                <button onclick="openMyProfileModal()" id="my-profile-btn" style="display:none;">profile</button>
+                <button onclick="logout()" id="logout-btn" style="display:none; background:transparent; border-color:transparent; opacity:0.6;">logout</button>
+            </nav>
+            
+            <div class="user-dropdown">
+                <button class="user-btn" onclick="toggleDropdown()">
+                    <span id="header-username" class="secondary-text">no user</span>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                </button>
+                <div id="user-dropdown-menu" class="dropdown-content">
+                    <div id="profile-list-container"></div>
+                    <button class="add-user-btn" onclick="openModal('create-profile-modal')">add profile</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- CORE DASHBOARD -->
+        <div class="core-area">
+            <div id="lock-screen" class="lock-overlay">
+                <h2>system locked</h2>
+                <p class="secondary-text">select or create a profile to continue</p>
+            </div>
+
+            <!-- TAB: CLIENTS -->
+            <div id="tab-clients" class="tab-content active">
+                <h2>client directory</h2>
+                <div class="search-box">
+                    <button onclick="openModal('create-client-modal')">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> new client
+                    </button>
+                    <input type="text" id="client-search-input" placeholder="Search client by name..." onkeyup="renderClientsList()">
+                    <select id="client-category-filter" onchange="renderClientsList()">
+                        <option value="">All Categories</option>
+                        <option value="Auto">Auto</option><option value="Sports">Sports</option>
+                        <option value="Gastronomy">Gastronomy</option><option value="Fitness">Fitness</option>
+                        <option value="Corporate">Corporate</option><option value="E-commerce">E-commerce</option>
+                        <option value="Tech">Tech</option><option value="Other">Other</option>
+                    </select>
+                </div>
+                <div id="clients-list-container"></div>
+            </div>
+
+            <!-- TAB: TASK BOARD -->
+            <div id="tab-taskboard" class="tab-content">
+                <h2>personal task board</h2>
+                <p class="secondary-text" style="margin-bottom: 20px;">manage your internal workflow</p>
+                <div class="card" style="padding: 20px;">
+                    <button onclick="addPersonalTask()" style="margin-bottom: 20px;">+ add task row</button>
+                    <div class="task-board-wrapper">
+                        <table class="task-board-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 120px;">Client</th>
+                                    <th style="width: 150px;">Content</th>
+                                    <th style="width: 130px;">Status</th>
+                                    <th style="width: 120px;">Recording Link</th>
+                                    <th style="width: 120px;">Content Link</th>
+                                    <th style="width: 110px;">Delivery Date</th>
+                                    <th style="width: 150px;">Feedback</th>
+                                    <th style="width: 110px;">Adj. Date</th>
+                                    <th style="width: 110px;">Apprv. Date</th>
+                                    <th style="width: 60px;">%</th>
+                                    <th style="width: 100px;">Progress</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="task-board-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: INVOICES -->
+            <div id="tab-invoice" class="tab-content">
+                <h2>invoice generator</h2>
+                <div class="card invoice-card">
+                    <input type="text" id="inv-client-name" placeholder="Client Name">
+                    
+                    <div style="display:flex; gap:16px; margin-bottom: 24px; flex-wrap: wrap;">
+                        <div style="flex:1; min-width: 200px;">
+                            <label class="secondary-text" style="display:block; margin-bottom:10px;">Currency</label>
+                            <select id="inv-currency">
+                                <option value="USD">USD ($)</option><option value="COP">COP ($)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h4 class="secondary-text" style="margin: 24px 0 12px;">Services</h4>
+                    <div id="invoice-items-container"></div>
+                    <button onclick="addInvoiceItem()" style="margin-bottom: 35px; background: rgba(255,255,255,0.02);">+ add service</button>
+                    
+                    <h4 class="secondary-text" style="margin: 24px 0 12px;">Banking Details</h4>
+                    <select id="bank-country" onchange="updateBankDatalist()">
+                        <option value="">Select Bank Region...</option>
+                        <option value="EEUU">United States</option>
+                        <option value="COL">Colombia</option>
+                        <option value="INT">International Banks</option>
+                    </select>
+                    
+                    <input type="text" list="bank-list" id="bank-search" placeholder="Search Bank (Select region first)..." disabled>
+                    <datalist id="bank-list"></datalist>
+
+                    <button style="width: 100%; margin-top: 35px; background: #fff; color: #000;" onclick="generateInvoicePDF()">
+                        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> generate & download pdf
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDE PANEL (CLIENT CALENDAR & STANDALONE TASKS) -->
+    <div id="task-side-panel" class="side-panel">
+        <div class="panel-header">
+            <h2 id="panel-client-name" style="margin:0;">client name</h2>
+            <button onclick="closeSidePanel()" style="border:none; background:transparent; padding:0;">
+                <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:#fff;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+        </div>
+        
+        <div style="display:flex; gap:10px; align-items:flex-end; margin-bottom:10px; flex-wrap: wrap;">
+            <div style="flex:1; min-width: 150px;">
+                <label class="secondary-text" style="display:block; margin-bottom:10px;">Select Month (2026)</label>
+                <select id="task-month-selector" onchange="renderCalendar()">
+                    <option value="">-- Select month --</option>
+                    <option value="January">January</option><option value="February">February</option>
+                    <option value="March">March</option><option value="April">April</option>
+                    <option value="May">May</option><option value="June">June</option>
+                    <option value="July">July</option><option value="August">August</option>
+                    <option value="September">September</option><option value="October">October</option>
+                    <option value="November">November</option><option value="December">December</option>
+                </select>
+            </div>
+            <div style="flex:1; min-width: 150px;">
+                <label class="secondary-text" style="display:block; margin-bottom:10px;">Status Filter</label>
+                <select id="task-status-filter" onchange="renderCalendar()">
+                    <option value="">All Statuses</option>
+                    <option value="Not Started">Not Started</option>
+                    <option value="Recording Finished">Recording Finished</option>
+                    <option value="Editing">Editing</option>
+                    <option value="Internal Review">Internal Review</option>
+                    <option value="Client Review">Client Review</option>
+                    <option value="Approved">Approved</option>
+                    <option value="To Publish">To Publish</option>
+                    <option value="Published">Published</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="month-tasks-wrapper" style="display:none; margin-top: 25px;">
+            <button onclick="generateGridPDF()" style="width:100%; background: #fff; color: #000; margin-bottom:20px;">
+                <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg> download content grid (pdf)
+            </button>
+            <p class="secondary-text" style="text-align:center;">Click on any day to add a grid task</p>
+            <div id="calendar-container"></div>
+        </div>
+
+        <!-- STANDALONE TASKS SECTION -->
+        <div id="standalone-tasks-wrapper" style="margin-top: 40px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 20px;">
+            <h3 class="secondary-text" style="margin-bottom: 15px;">standalone / single tasks</h3>
+            <button onclick="addStandaloneTask()" style="width:100%; margin-bottom: 15px; background:rgba(255,255,255,0.05);">+ add single task</button>
+            <div id="standalone-tasks-container"></div>
+        </div>
+    </div>
+
+    <!-- TASK MODAL (Create/Edit from Calendar or Standalone) -->
+    <div id="task-action-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="task-modal-title">add task</h3><br>
+            <input type="hidden" id="task-modal-id" value="">
+            <input type="hidden" id="task-modal-day" value="">
+            
+            <label class="secondary-text" style="display:block; margin-bottom:5px;">Task Title</label>
+            <input type="text" id="task-input-name" placeholder="Title...">
+
+            <label class="secondary-text" style="display:block; margin-bottom:5px;">Content Idea / Concept</label>
+            <textarea id="task-input-idea" placeholder="Describe the idea for this content..."></textarea>
+            
+            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                <div style="flex:1; min-width: 150px;">
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Content Type</label>
+                    <select id="task-input-type">
+                        <option value="Slides">Slides</option>
+                        <option value="Stories">Stories</option>
+                        <option value="Videos">Videos</option>
+                    </select>
+                </div>
+                <div style="flex:1; min-width: 150px;">
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Publish Date</label>
+                    <input type="text" id="task-input-date-display" disabled style="opacity:0.6;">
+                </div>
+            </div>
+
+            <div id="task-edit-history" style="display:none; margin-top:20px;">
+                <p class="secondary-text" style="margin-bottom:10px;">status log</p>
+                <div class="status-timeline" id="task-status-timeline"></div>
+                <div style="display:flex; gap:10px; margin-top:10px; flex-wrap: wrap;">
+                    <select id="task-new-status" style="margin:0; padding:10px; flex: 2; min-width: 150px;">
+                        <option value="">Update status...</option>
+                        <option value="Not Started">Not Started</option>
+                        <option value="Recording Finished">Recording Finished</option>
+                        <option value="Editing">Editing</option>
+                        <option value="Internal Review">Internal Review</option>
+                        <option value="Client Review">Client Review</option>
+                        <option value="Approved">Approved</option>
+                        <option value="To Publish">To Publish</option>
+                        <option value="Published">Published</option>
+                    </select>
+                    <button onclick="updateTaskStatus()" style="flex: 1; min-width: 80px;">add</button>
+                </div>
+
+                <div id="task-link-rec-group" class="input-group">
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Recording Link <span id="lbl-rec-user"></span></label>
+                    <input type="text" id="task-link-rec" placeholder="URL..." style="margin:0;" onchange="saveTaskDataModal('linkGrabacion', this.value)">
+                </div>
+                <div id="task-link-app-group" class="input-group">
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Approved Link <span id="lbl-app-user"></span></label>
+                    <input type="text" id="task-link-app" placeholder="URL..." style="margin:0;" onchange="saveTaskDataModal('linkAprobado', this.value)">
+                </div>
+            </div>
+
+            <button onclick="saveTaskAction()" style="width:100%; margin-top:20px; background: #fff; color: #000;">save task details</button>
+            <button onclick="closeModal('task-action-modal')" style="width:100%; background:transparent; border:none; margin-top:10px;">close</button>
+        </div>
+    </div>
+
+    <!-- PRINT CONTAINERS -->
+    <div id="invoice-print-area" class="print-container">
+        <h1 style="border-bottom: 1px solid #000; padding-bottom: 20px; font-weight: 400; color:#000;">smoo reach agency</h1>
+        <div style="margin-top:40px; display:flex; justify-content:space-between; margin-bottom:40px;">
+            <div><p style="font-size:12px;text-transform:uppercase;color:#555;">invoice id</p><p style="color:#000;"><span id="print-id"></span></p></div>
+            <div><p style="font-size:12px;text-transform:uppercase;color:#555;">date</p><p style="color:#000;"><span id="print-date"></span></p></div>
+            <div><p style="font-size:12px;text-transform:uppercase;color:#555;">client</p><p style="color:#000;"><span id="print-client"></span></p></div>
+        </div>
+        <table class="print-table">
+            <thead><tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr></thead>
+            <tbody id="print-items-body"></tbody>
+        </table>
+        <div style="text-align: right; margin-top: 30px; font-size: 1.5rem; font-weight: 500; color:#000;">
+            total: <span id="print-total">0.00</span>
+        </div>
+        <div style="margin-top: 60px;"><p style="font-size:12px;text-transform:uppercase;color:#555;margin-bottom:10px;">banking details</p><p id="print-bank" style="font-size:14px; color:#000;"></p></div>
+    </div>
+
+    <div id="grid-print-area" class="print-container">
+        <h1 style="border-bottom: 1px solid #000; padding-bottom: 20px; font-weight: 400; color:#000;">content grid calendar</h1>
+        <div style="margin-top:20px; margin-bottom:30px; color:#000;">
+            <p style="font-size:14px; margin-bottom:5px;"><strong>Client:</strong> <span id="grid-print-client"></span></p>
+            <p style="font-size:14px;"><strong>Month:</strong> <span id="grid-print-month"></span></p>
+        </div>
+        <div id="pdf-calendar-container" style="color: #000;"></div>
+    </div>
+
+    <!-- === OTHER MODALS === -->
+    <div id="create-profile-modal" class="modal">
+        <div class="modal-content">
+            <h3>new profile</h3><br>
+            <input type="text" id="new-prof-name" placeholder="Name / Alias">
+            <select id="new-prof-role">
+                <option>CEO</option><option>CO-CEO</option><option>VIDEO EDITOR</option><option>GRAPHIC DESIGNER</option>
+            </select>
+            <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
+            
+            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px;">
+                <script>for(let i=1; i<=20; i++) document.write(`<div id="av-create-${i}" class="avatar-box av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
+            </div>
+            <input type="hidden" id="selected-avatar-create" value="1">
+            
+            <button onclick="saveProfile()" style="width:100%; margin-bottom:12px; background: #fff; color: #000;">save profile</button>
+            <button onclick="closeModal('create-profile-modal')" style="width:100%; background:transparent; border:none;">cancel</button>
+        </div>
+    </div>
+
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <h3>edit profile</h3><br>
+            <input type="text" id="edit-prof-name">
+            <select id="edit-prof-role">
+                <option>CEO</option><option>CO-CEO</option><option>VIDEO EDITOR</option><option>GRAPHIC DESIGNER</option>
+            </select>
+            <p class="secondary-text" style="margin:20px 0 12px;">new pin (optional)</p>
+            <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
+            
+            <p class="secondary-text" style="margin:20px 0 12px;">select avatar</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px;">
+                <script>for(let i=1; i<=20; i++) document.write(`<div id="av-edit-${i}" class="avatar-box av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
+            </div>
+            <input type="hidden" id="selected-avatar-edit" value="1">
+
+            <button onclick="saveMyProfile()" style="width:100%; margin-bottom:12px; background: #fff; color: #000;">save changes</button>
+            <button onclick="deleteMyProfile()" style="width:100%; margin-bottom:12px; background:rgba(255,0,0,0.1); border-color:transparent; color:#ff4d4d;">delete profile</button>
+            <button onclick="closeModal('edit-profile-modal')" style="width:100%; background:transparent; border:none;">cancel</button>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="login-modal-name">login</h3><br>
+            <input type="password" id="login-pin" placeholder="Enter 4-Digit PIN" maxlength="4">
+            <button onclick="verifyPin()" style="width:100%; margin-top:10px; background: #fff; color: #000;">unlock system</button>
+            <button onclick="closeModal('login-modal')" style="width:100%; background:transparent; border:none; margin-top:10px;">cancel</button>
+        </div>
+    </div>
+
+    <div id="create-client-modal" class="modal">
+        <div class="modal-content">
+            <h3>new client</h3><br>
+            <input type="text" id="new-client-name" placeholder="e.g. Acme Corp...">
+            <p class="secondary-text" style="margin:20px 0 12px;">client category</p>
+            <select id="new-client-category">
+                <option value="Auto">Auto</option><option value="Sports">Sports</option>
+                <option value="Gastronomy">Gastronomy</option><option value="Fitness">Fitness</option>
+                <option value="Corporate">Corporate</option><option value="E-commerce">E-commerce</option>
+                <option value="Tech">Tech</option><option value="Other">Other</option>
+            </select>
+            <button onclick="saveClient()" style="width:100%; margin-bottom:12px; margin-top: 10px; background: #fff; color: #000;">create client</button>
+            <button onclick="closeModal('create-client-modal')" style="width:100%; background:transparent; border:none;">cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // === FIREBASE CONFIGURATION ===
+        // IMPORTANT: Replace this with your actual Firebase config object
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_ID",
+            appId: "TU_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // === STATE ===
+        let profiles = [];
+        let clients = [];
+        let currentProfile = null;
+        let selectedProfileLogin = null;
+        let activeClientIdForPanel = null;
+        const currentYear = 2026;
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const taskStatuses = ["Not Started", "Recording Finished", "Editing", "Internal Review", "Client Review", "Approved", "To Publish", "Published"];
+        const taskBoardClients = ["Peruvian Taste", "Five Stars Rims", "A.E.B.W", "City Dinner", "Team Africa", "Potential Client"];
+        
+        const bankData = {
+            'EEUU': ['JPMorgan Chase', 'Bank of America', 'Wells Fargo', 'Citibank', 'U.S. Bank', 'PNC Bank', 'Truist', 'Goldman Sachs', 'TD Bank', 'Capital One', 'Morgan Stanley', 'Ally Bank', 'Stripe'],
+            'COL': ['Bancolombia', 'Banco de Bogotá', 'Davivienda', 'BBVA Colombia', 'Banco de Occidente', 'Scotiabank Colpatria', 'Banco Popular', 'Nequi', 'Daviplata'],
+            'INT': ['Nu', 'Stripe', 'Revolut', 'Wise', 'Payoneer', 'PayPal', 'Monzo', 'N26', 'Skrill', 'Chime']
+        };
+
+        // === FIREBASE REALTIME LISTENERS ===
+        db.collection("profiles").onSnapshot(snapshot => {
+            profiles = [];
+            snapshot.forEach(doc => profiles.push({ id: doc.id, ...doc.data() }));
+            renderDropdownProfiles();
+            
+            if(currentProfile) {
+                currentProfile = profiles.find(p => p.id === currentProfile.id) || currentProfile;
+                if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
+            }
+        });
+
+        db.collection("clients").onSnapshot(snapshot => {
+            clients = [];
+            snapshot.forEach(doc => clients.push({ id: doc.id, ...doc.data() }));
+            renderClientsList();
+            
+            if(activeClientIdForPanel) {
+                renderCalendar();
+                renderStandaloneTasks();
+            }
+        });
+
+        // === UTILS ===
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; document.getElementById('user-dropdown-menu').classList.remove('show'); }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            if(tabId === 'tab-taskboard' && currentProfile) renderTaskBoard();
+        }
+        function toggleDropdown() { document.getElementById('user-dropdown-menu').classList.toggle('show'); }
+        window.onclick = function(event) { if (!event.target.closest('.user-dropdown')) document.getElementById('user-dropdown-menu').classList.remove('show'); }
+
+        function selectAvatar(mode, id) {
+            document.getElementById(`selected-avatar-${mode}`).value = id;
+            for(let i=1; i<=20; i++){
+                const box = document.getElementById(`av-${mode}-${i}`);
+                if(box) box.classList.remove('selected');
+            }
+            const activeBox = document.getElementById(`av-${mode}-${id}`);
+            if(activeBox) activeBox.classList.add('selected');
+        }
+
+        // === PROFILES ===
+        function saveProfile() {
+            const name = document.getElementById('new-prof-name').value.trim();
+            const pin = document.getElementById('new-prof-pin').value;
+            const avatar = document.getElementById('selected-avatar-create').value;
+            if(!name || pin.length !== 4) return alert("Valid Name and 4-digit PIN required.");
+            
+            db.collection("profiles").add({
+                name: name, pin: pin, role: document.getElementById('new-prof-role').value, avatar: avatar, personalTasks: [] 
+            });
+            
+            document.getElementById('new-prof-name').value = ''; document.getElementById('new-prof-pin').value = '';
+            selectAvatar('create', 1);
+            closeModal('create-profile-modal'); 
+        }
+
+        function renderDropdownProfiles() {
+            const container = document.getElementById('profile-list-container');
+            container.innerHTML = profiles.length === 0 ? '<div class="secondary-text" style="padding:10px;">no profiles</div>' : '';
+            profiles.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'dropdown-item';
+                div.innerHTML = `<div class="avatar-box av-${p.avatar}" style="width:30px;height:30px;"></div> <div><div style="font-weight:500; font-size:13px;">${p.name.toLowerCase()}</div><div class="secondary-text" style="font-size:10px;">${p.role}</div></div>`;
+                div.onclick = () => {
+                    selectedProfileLogin = p;
+                    document.getElementById('login-modal-name').innerText = `login // ${p.name.toLowerCase()}`;
+                    document.getElementById('login-pin').value = '';
+                    openModal('login-modal');
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function verifyPin() {
+            if(document.getElementById('login-pin').value === selectedProfileLogin.pin) {
+                currentProfile = selectedProfileLogin;
+                document.getElementById('header-username').innerText = currentProfile.name.toLowerCase();
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('logout-btn').style.display = 'inline-flex';
+                document.getElementById('my-profile-btn').style.display = 'inline-flex';
+                closeModal('login-modal');
+                renderClientsList();
+                if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
+            } else { alert("Invalid PIN."); }
+        }
+
+        function logout() {
+            currentProfile = null;
+            document.getElementById('header-username').innerText = "no user";
+            document.getElementById('lock-screen').classList.remove('hidden');
+            document.getElementById('logout-btn').style.display = 'none';
+            document.getElementById('my-profile-btn').style.display = 'none';
+            closeSidePanel();
+            switchTab('tab-clients');
+        }
+
+        function openMyProfileModal() {
+            document.getElementById('edit-prof-name').value = currentProfile.name;
+            document.getElementById('edit-prof-role').value = currentProfile.role;
+            document.getElementById('edit-prof-pin').value = '';
+            selectAvatar('edit', currentProfile.avatar);
+            openModal('edit-profile-modal');
+        }
+
+        function saveMyProfile() {
+            const newName = document.getElementById('edit-prof-name').value;
+            const newRole = document.getElementById('edit-prof-role').value;
+            const newAvatar = document.getElementById('selected-avatar-edit').value;
+            const newPin = document.getElementById('edit-prof-pin').value;
+            
+            let updates = { name: newName, role: newRole, avatar: newAvatar };
+            if (newPin.length > 0) {
+                if (newPin.length === 4) updates.pin = newPin;
+                else return alert("PIN must be exactly 4 digits.");
+            }
+            
+            db.collection("profiles").doc(currentProfile.id).update(updates).then(() => {
+                document.getElementById('header-username').innerText = newName.toLowerCase();
+                closeModal('edit-profile-modal');
+            });
+        }
+
+        function deleteMyProfile() {
+            const pinConfirm = prompt("Enter your 4-digit PIN to confirm deletion:");
+            if(pinConfirm === currentProfile.pin) {
+                db.collection("profiles").doc(currentProfile.id).delete().then(() => {
+                    closeModal('edit-profile-modal');
+                    logout();
+                });
+            } else { alert("Incorrect PIN."); }
+        }
+
+        // === TASK BOARD (USER SPECIFIC) ===
+        function getTaskProgress(status) {
+            switch(status) {
+                case "Not Started": return 0;
+                case "Recording Finished": return 20;
+                case "Editing": return 40;
+                case "Internal Review": return 60;
+                case "Client Review": return 80;
+                case "Approved": return 100;
+                case "To Publish": return 100;
+                case "Published": return 100;
+                default: return 0;
+            }
+        }
+
+        function addPersonalTask() {
+            let updatedTasks = currentProfile.personalTasks ? [...currentProfile.personalTasks] : [];
+            updatedTasks.push({
+                id: Date.now().toString(), client: "", content: "", status: "Not Started", recLink: "", contentLink: "", deliveryDate: "", feedback: "", adjDate: "", apprvDate: ""
+            });
+            db.collection("profiles").doc(currentProfile.id).update({ personalTasks: updatedTasks });
+        }
+
+        function updatePersonalTask(taskId, field, value) {
+            let updatedTasks = [...currentProfile.personalTasks];
+            const task = updatedTasks.find(t => t.id == taskId);
+            if(task) {
+                task[field] = value;
+                db.collection("profiles").doc(currentProfile.id).update({ personalTasks: updatedTasks });
+            }
+        }
+
+        function deletePersonalTask(taskId) {
+            let updatedTasks = currentProfile.personalTasks.filter(t => t.id != taskId);
+            db.collection("profiles").doc(currentProfile.id).update({ personalTasks: updatedTasks });
+        }
+
+        function renderTaskBoard() {
+            const tbody = document.getElementById('task-board-body');
+            tbody.innerHTML = '';
+            if(!currentProfile || !currentProfile.personalTasks) return;
+
+            const clientOpts = `<option value="">Select...</option>` + taskBoardClients.map(c => `<option value="${c}">${c}</option>`).join('');
+            const statusOpts = taskStatuses.map(s => `<option value="${s}">${s}</option>`).join('');
+
+            currentProfile.personalTasks.forEach(t => {
+                const tr = document.createElement('tr');
+                const progress = getTaskProgress(t.status);
+                
+                tr.innerHTML = `
+                    <td><select onchange="updatePersonalTask('${t.id}', 'client', this.value)">${clientOpts.replace(`value="${t.client}"`, `value="${t.client}" selected`)}</select></td>
+                    <td><input type="text" value="${t.content}" placeholder="Content..." onchange="updatePersonalTask('${t.id}', 'content', this.value)"></td>
+                    <td><select onchange="updatePersonalTask('${t.id}', 'status', this.value)">${statusOpts.replace(`value="${t.status}"`, `value="${t.status}" selected`)}</select></td>
+                    <td><input type="text" value="${t.recLink}" placeholder="URL..." onchange="updatePersonalTask('${t.id}', 'recLink', this.value)"></td>
+                    <td><input type="text" value="${t.contentLink}" placeholder="URL..." onchange="updatePersonalTask('${t.id}', 'contentLink', this.value)"></td>
+                    <td><input type="date" value="${t.deliveryDate}" onchange="updatePersonalTask('${t.id}', 'deliveryDate', this.value)"></td>
+                    <td><input type="text" value="${t.feedback}" placeholder="Feedback..." onchange="updatePersonalTask('${t.id}', 'feedback', this.value)"></td>
+                    <td><input type="date" value="${t.adjDate}" onchange="updatePersonalTask('${t.id}', 'adjDate', this.value)"></td>
+                    <td><input type="date" value="${t.apprvDate}" onchange="updatePersonalTask('${t.id}', 'apprvDate', this.value)"></td>
+                    <td style="text-align:center; font-size:12px; font-weight:600; padding-top:18px;">${progress}%</td>
+                    <td style="padding-top:18px;"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%;"></div></div></td>
+                    <td style="text-align:center;"><button onclick="deletePersonalTask('${t.id}')" style="padding:6px; background:rgba(255,0,0,0.2); border:none; margin-top:5px;">X</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // === CLIENTS ===
+        function saveClient() {
+            const name = document.getElementById('new-client-name').value.trim();
+            const category = document.getElementById('new-client-category').value;
+            if(!name) return;
+            const idNum = String(clients.length + 1).padStart(3, '0');
+            
+            db.collection("clients").add({
+                idNum, name, category, tasks: []
+            });
+            
+            document.getElementById('new-client-name').value = '';
+            document.getElementById('new-client-category').value = 'Auto';
+            closeModal('create-client-modal');
+        }
+
+        function renderClientsList() {
+            const container = document.getElementById('clients-list-container');
+            const searchText = document.getElementById('client-search-input').value.toLowerCase();
+            const filterCategory = document.getElementById('client-category-filter').value;
+            
+            container.innerHTML = '';
+            const filtered = clients.filter(c => {
+                return c.name.toLowerCase().includes(searchText) && (filterCategory === "" || c.category === filterCategory);
+            });
+
+            if(filtered.length === 0) {
+                container.innerHTML = '<p class="secondary-text">no clients found.</p>'; return;
+            }
+
+            filtered.forEach(c => {
+                const gridTasks = c.tasks.filter(t => !t.isStandalone);
+                const singleTasks = c.tasks.filter(t => t.isStandalone);
+                
+                const gridApproved = gridTasks.filter(t => {
+                    if(!t.history || t.history.length === 0) return false;
+                    const status = t.history[t.history.length-1].status;
+                    return status === 'Approved' || status === 'To Publish' || status === 'Published';
+                }).length;
+                
+                const singleApproved = singleTasks.filter(t => {
+                    if(!t.history || t.history.length === 0) return false;
+                    const status = t.history[t.history.length-1].status;
+                    return status === 'Approved' || status === 'To Publish' || status === 'Published';
+                }).length;
+
+                const row = document.createElement('div');
+                row.className = 'client-list-item';
+                row.innerHTML = `
+                    <div>
+                        <div style="display:flex; align-items:center; flex-wrap: wrap; gap: 10px;">
+                            <span class="client-id">[${c.idNum}]</span>
+                            <span style="font-size: 1.1rem; font-weight:500;">${c.name}</span>
+                            <span class="client-cat-badge">${c.category}</span>
+                        </div>
+                        <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 8px; letter-spacing: 0.05em; line-height: 1.5;">
+                            PENDING TASKS INFO <br> GRID: <strong style="color:#fff;">${gridApproved}/${gridTasks.length}</strong> COMPLETED &nbsp;|&nbsp; SINGLE: <strong style="color:#fff;">${singleApproved}/${singleTasks.length}</strong> COMPLETED
+                        </div>
+                    </div>
+                    <button onclick="openSidePanel('${c.id}')">view tasks</button>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // === SIDE PANEL & CALENDAR GRID ===
+        function openSidePanel(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            activeClientIdForPanel = clientId;
+            document.getElementById('panel-client-name').innerText = client.name.toLowerCase();
+            document.getElementById('task-month-selector').value = '';
+            document.getElementById('month-tasks-wrapper').style.display = 'none';
+            document.getElementById('task-side-panel').classList.add('open');
+            renderStandaloneTasks();
+        }
+
+        function closeSidePanel() {
+            document.getElementById('task-side-panel').classList.remove('open');
+            activeClientIdForPanel = null;
+        }
+
+        function renderCalendar() {
+            const monthName = document.getElementById('task-month-selector').value;
+            const statusFilter = document.getElementById('task-status-filter').value;
+            const wrapper = document.getElementById('month-tasks-wrapper');
+            if(!monthName) { wrapper.style.display = 'none'; return; }
+            wrapper.style.display = 'block';
+
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            const container = document.getElementById('calendar-container');
+            
+            const monthIndex = monthNames.indexOf(monthName);
+            const date = new Date(currentYear, monthIndex, 1);
+            const daysInMonth = new Date(currentYear, monthIndex + 1, 0).getDate();
+            
+            let firstDay = date.getDay() - 1;
+            if(firstDay === -1) firstDay = 6;
+
+            let html = '<div class="calendar-grid"><div class="cal-head">Mon</div><div class="cal-head">Tue</div><div class="cal-head">Wed</div><div class="cal-head">Thu</div><div class="cal-head">Fri</div><div class="cal-head">Sat</div><div class="cal-head">Sun</div>';
+            
+            for(let i=0; i<firstDay; i++) {
+                html += '<div class="calendar-day empty"></div>';
+            }
+            
+            for(let day=1; day<=daysInMonth; day++) {
+                const dayTasks = client.tasks.filter(t => 
+                    !t.isStandalone && 
+                    t.month === monthName && 
+                    parseInt(t.expectedDay) === day &&
+                    (statusFilter === "" || t.history[t.history.length-1].status === statusFilter)
+                );
+                
+                let tasksHtml = dayTasks.map(t => `<div class="task-chip" onclick="event.stopPropagation(); openTaskModal('${t.id}')">${t.name}</div>`).join('');
+                
+                html += `
+                    <div class="calendar-day" onclick="openTaskModal(null, ${day})">
+                        <div class="day-num">${day}</div>
+                        <div>${tasksHtml}</div>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // === STANDALONE TASKS ===
+        function addStandaloneTask() {
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            let updatedTasks = [...client.tasks];
+            
+            updatedTasks.unshift({
+                id: Date.now().toString(), isStandalone: true, month: "", expectedDay: null, name: "New Single Task...", idea: "", contentType: "Videos",
+                history: [{ status: "Not Started", user: currentProfile.name, date: new Date().toLocaleDateString() }],
+                data: { linkGrabacion: null, linkAprobado: null }
+            });
+            
+            db.collection("clients").doc(client.id).update({ tasks: updatedTasks });
+        }
+
+        function renderStandaloneTasks() {
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            const container = document.getElementById('standalone-tasks-container');
+            container.innerHTML = '';
+            const singleTasks = client.tasks.filter(t => t.isStandalone);
+            
+            if(singleTasks.length === 0) {
+                container.innerHTML = '<p class="secondary-text">no standalone tasks.</p>';
+                return;
+            }
+
+            singleTasks.forEach(t => {
+                const currentStatus = t.history[t.history.length-1].status;
+                container.innerHTML += `
+                    <div class="calendar-day" style="min-height: auto; margin-bottom: 10px;" onclick="openTaskModal('${t.id}')">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong style="font-size: 13px;">${t.name}</strong>
+                            <span class="client-cat-badge" style="margin:0;">${currentStatus}</span>
+                        </div>
+                        <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:5px;">${t.contentType}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // === TASK MODAL LOGIC ===
+        function openTaskModal(taskId = null, day = null) {
+            const month = document.getElementById('task-month-selector').value;
+            
+            if(!taskId) {
+                document.getElementById('task-modal-title').innerText = "add grid task";
+                document.getElementById('task-modal-id').value = '';
+                document.getElementById('task-modal-day').value = day;
+                document.getElementById('task-input-name').value = '';
+                document.getElementById('task-input-idea').value = '';
+                document.getElementById('task-input-type').value = 'Videos';
+                document.getElementById('task-input-date-display').value = `${month} ${day}, ${currentYear}`;
+                document.getElementById('task-edit-history').style.display = 'none';
+            } else {
+                const client = clients.find(c => c.id === activeClientIdForPanel);
+                const task = client.tasks.find(t => t.id == taskId);
+                
+                document.getElementById('task-modal-title').innerText = task.isStandalone ? "edit single task" : "edit grid task";
+                document.getElementById('task-modal-id').value = task.id;
+                document.getElementById('task-modal-day').value = task.expectedDay;
+                document.getElementById('task-input-name').value = task.name;
+                document.getElementById('task-input-idea').value = task.idea || '';
+                document.getElementById('task-input-type').value = task.contentType;
+                
+                if(task.isStandalone) {
+                    document.getElementById('task-input-date-display').value = 'Standalone Task';
+                } else {
+                    document.getElementById('task-input-date-display').value = `${task.month} ${task.expectedDay}, ${currentYear}`;
+                }
+                
+                document.getElementById('task-edit-history').style.display = 'block';
+
+                let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
+                document.getElementById('task-status-timeline').innerHTML = historyHTML;
+
+                const hasRec = task.history.some(h => h.status === 'Recording Finished');
+                const hasApp = task.history.some(h => h.status === 'Approved');
+                
+                document.getElementById('task-link-rec-group').className = `input-group ${hasRec ? 'active' : ''}`;
+                document.getElementById('task-link-app-group').className = `input-group ${hasApp ? 'active' : ''}`;
+                
+                document.getElementById('task-link-rec').value = task.data.linkGrabacion ? task.data.linkGrabacion.url : '';
+                document.getElementById('lbl-rec-user').innerText = task.data.linkGrabacion ? `(by ${task.data.linkGrabacion.user})` : '';
+                
+                document.getElementById('task-link-app').value = task.data.linkAprobado ? task.data.linkAprobado.url : '';
+                document.getElementById('lbl-app-user').innerText = task.data.linkAprobado ? `(by ${task.data.linkAprobado.user})` : '';
+            }
+            openModal('task-action-modal');
+        }
+
+        function saveTaskAction() {
+            const taskId = document.getElementById('task-modal-id').value;
+            const name = document.getElementById('task-input-name').value.trim();
+            const idea = document.getElementById('task-input-idea').value.trim();
+            const type = document.getElementById('task-input-type').value;
+            
+            if(!name) return alert("Task title required.");
+
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            let updatedTasks = [...client.tasks];
+
+            if(taskId) {
+                const task = updatedTasks.find(t => t.id == taskId);
+                task.name = name;
+                task.idea = idea;
+                task.contentType = type;
+            } else {
+                const month = document.getElementById('task-month-selector').value;
+                const day = document.getElementById('task-modal-day').value;
+                const isStandalone = document.getElementById('task-modal-title').innerText.includes('single');
+                
+                updatedTasks.unshift({
+                    id: Date.now().toString(), isStandalone: isStandalone, month: isStandalone ? "" : month, expectedDay: isStandalone ? null : parseInt(day), name: name, idea: idea, contentType: type,
+                    history: [{ status: "Not Started", user: currentProfile.name, date: new Date().toLocaleDateString() }],
+                    data: { linkGrabacion: null, linkAprobado: null }
+                });
+            }
+            
+            db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
+                closeModal('task-action-modal');
+            });
+        }
+
+        function updateTaskStatus() {
+            const taskId = document.getElementById('task-modal-id').value;
+            const status = document.getElementById('task-new-status').value;
+            if(!status) return;
+            
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            let updatedTasks = [...client.tasks];
+            const task = updatedTasks.find(t => t.id == taskId);
+            
+            task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
+            
+            db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
+                document.getElementById('task-new-status').value = '';
+                openTaskModal(taskId); 
+            });
+        }
+
+        function saveTaskDataModal(field, value) {
+            const taskId = document.getElementById('task-modal-id').value;
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            let updatedTasks = [...client.tasks];
+            const task = updatedTasks.find(t => t.id == taskId);
+            
+            task.data[field] = { url: value, user: currentProfile.name };
+            db.collection("clients").doc(client.id).update({ tasks: updatedTasks });
+        }
+
+        // === CONTENT GRID PDF (CALENDAR VIEW) ===
+        function generateGridPDF() {
+            const client = clients.find(c => c.id === activeClientIdForPanel);
+            const monthName = document.getElementById('task-month-selector').value;
+            if(!monthName) return alert("Select a month first.");
+
+            document.getElementById('grid-print-client').innerText = client.name;
+            document.getElementById('grid-print-month').innerText = `${monthName} ${currentYear}`;
+
+            const container = document.getElementById('pdf-calendar-container');
+            const monthIndex = monthNames.indexOf(monthName);
+            const date = new Date(currentYear, monthIndex, 1);
+            const daysInMonth = new Date(currentYear, monthIndex + 1, 0).getDate();
+            
+            let firstDay = date.getDay() - 1;
+            if(firstDay === -1) firstDay = 6;
+
+            let html = '<div class="pdf-calendar"><div class="pdf-cal-head">Mon</div><div class="pdf-cal-head">Tue</div><div class="pdf-cal-head">Wed</div><div class="pdf-cal-head">Thu</div><div class="pdf-cal-head">Fri</div><div class="pdf-cal-head">Sat</div><div class="pdf-cal-head">Sun</div>';
+            
+            for(let i=0; i<firstDay; i++) {
+                html += '<div class="pdf-cal-day" style="background:#f9f9f9; border-color:#eee;"></div>';
+            }
+            
+            for(let day=1; day<=daysInMonth; day++) {
+                const dayTasks = client.tasks.filter(t => !t.isStandalone && t.month === monthName && parseInt(t.expectedDay) === day);
+                let tasksHtml = dayTasks.map(t => `<div class="pdf-task"><strong>${t.name}</strong> (${t.contentType})<div class="pdf-idea">${t.idea || 'No description.'}</div></div>`).join('');
+                
+                html += `
+                    <div class="pdf-cal-day">
+                        <div class="pdf-day-num">${day}</div>
+                        <div>${tasksHtml}</div>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+
+            document.body.classList.add('print-mode-grid');
+            window.print();
+            document.body.classList.remove('print-mode-grid');
+        }
+
+        // === INVOICE GENERATOR ===
+        let invoiceItemCount = 0;
+        function addInvoiceItem() {
+            invoiceItemCount++;
+            const container = document.getElementById('invoice-items-container');
+            const row = document.createElement('div');
+            row.className = 'inv-item-row';
+            row.id = `inv-row-${invoiceItemCount}`;
+            row.innerHTML = `
+                <input type="text" class="inv-desc" placeholder="Service Description" style="margin:0;">
+                <input type="number" class="inv-qty" placeholder="Qty" min="1" value="1" style="margin:0;">
+                <input type="number" class="inv-price" placeholder="Unit Price" style="margin:0;">
+                <button onclick="document.getElementById('inv-row-${invoiceItemCount}').remove()" style="border:none; background:rgba(255,0,0,0.1); border-radius:12px; padding: 14px; color:#ff4d4d;">X</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function updateBankDatalist() {
+            const country = document.getElementById('bank-country').value;
+            const searchInput = document.getElementById('bank-search');
+            const dataList = document.getElementById('bank-list');
+            
+            dataList.innerHTML = '';
+            searchInput.value = '';
+
+            if(country) {
+                searchInput.disabled = false;
+                searchInput.placeholder = `Search Bank in ${country}...`;
+                bankData[country].forEach(bank => {
+                    const option = document.createElement('option');
+                    option.value = bank;
+                    dataList.appendChild(option);
+                });
+            } else {
+                searchInput.disabled = true;
+                searchInput.placeholder = "Search Bank (Select region first)...";
+            }
+        }
+
+        function generateInvoicePDF() {
+            const client = document.getElementById('inv-client-name').value;
+            const bank = document.getElementById('bank-search').value;
+            if(!client) return alert("Client name is required for the invoice.");
+
+            const currencySel = document.getElementById('inv-currency').value;
+            const currencySymbol = currencySel === 'USD' ? '$' : 'COP $';
+
+            document.getElementById('print-id').innerText = "SMOO-" + Math.floor(Math.random() * 10000);
+            document.getElementById('print-date').innerText = new Date().toLocaleDateString();
+            document.getElementById('print-client').innerText = client;
+            document.getElementById('print-bank').innerText = bank || "N/A";
+
+            const tbody = document.getElementById('print-items-body');
+            tbody.innerHTML = '';
+            let total = 0;
+
+            const rows = document.querySelectorAll('.inv-item-row');
+            rows.forEach(row => {
+                const desc = row.querySelector('.inv-desc').value || "Service";
+                const qty = parseFloat(row.querySelector('.inv-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.inv-price').value) || 0;
+                const subtotal = qty * price;
+                total += subtotal;
+
+                const tr = document.createElement('tr');
+                const priceFormatted = price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                const subtotalFormatted = subtotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                tr.innerHTML = `
+                    <td>${desc}</td>
+                    <td>${qty}</td>
+                    <td>${currencySymbol}${priceFormatted}</td>
+                    <td>${currencySymbol}${subtotalFormatted}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const totalFormatted = total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('print-total').innerText = currencySymbol + totalFormatted;
+
+            document.body.classList.add('print-mode-invoice');
+            window.print();
+            document.body.classList.remove('print-mode-invoice');
+        }
+
+        // Init
+        addInvoiceItem();
+        selectAvatar('create', 1);
+    </script>
+</body>
+</html>
