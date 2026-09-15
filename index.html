@@ -14,11 +14,11 @@
     <style>
         /* === CORPORATE MINIMALISM - GLASSMORPHISM & AURORA === */
         :root {
-            --bg-base: #01030A; /* Darker, almost black blue */
+            --bg-base: #01030A; 
             --blob-1: #1E3A8A;
             --blob-2: #2563EB;
             --blob-3: #3B82F6;
-            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-border: 1px solid rgba(255, 255, 255, 0.08);
             --glow-hover: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.05);
             --text-main: #FFFFFF;
@@ -96,7 +96,7 @@
         h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
         .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
 
-        /* LAYOUT & COMPONENTS (GLASSMORPHISM) */
+        /* LAYOUT & COMPONENTS */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
 
         button {
@@ -109,12 +109,7 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         }
         button svg { width: 14px; height: 14px; fill: currentColor; }
-        button:hover { 
-            background: rgba(255, 255, 255, 0.1); 
-            border-color: rgba(255, 255, 255, 0.4); 
-            transform: translateY(-2px); 
-            box-shadow: var(--glow-hover);
-        }
+        button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: var(--glow-hover); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         input, select, textarea {
@@ -125,13 +120,8 @@
             outline: none; transition: all 0.3s ease;
         }
         textarea { resize: vertical; min-height: 60px; }
-        input:focus, select:focus, textarea:focus { 
-            border-color: rgba(255, 255, 255, 0.5); 
-            background: rgba(255,255,255,0.06); 
-            box-shadow: var(--glow-hover);
-        }
+        input:focus, select:focus, textarea:focus { border-color: rgba(255, 255, 255, 0.5); background: rgba(255,255,255,0.06); box-shadow: var(--glow-hover); }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
-
         select option { background-color: #ffffff; color: #000000; }
 
         /* CARDS & PANELS */
@@ -146,8 +136,7 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px 32px; margin-bottom: 50px; position: sticky; top: 20px; z-index: 50;
             background: rgba(2, 4, 10, 0.2); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: var(--glass-border); border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: var(--glass-border); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
@@ -161,7 +150,6 @@
         .dropdown-item { padding: 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: 0.2s; border: 1px solid transparent; }
         .dropdown-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.1); box-shadow: var(--glow-hover); }
         .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
-        
         #header-avatar { display: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
 
         /* LOCK SCREEN */
@@ -189,10 +177,7 @@
             border: var(--glass-border); border-radius: 20px; backdrop-filter: blur(25px);
             transition: all 0.3s ease; flex-wrap: wrap; gap: 15px;
         }
-        .client-list-item:hover { 
-            border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); 
-            box-shadow: var(--glow-hover); transform: translateY(-2px);
-        }
+        .client-list-item:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); box-shadow: var(--glow-hover); transform: translateY(-2px); }
         .client-id { font-size: 11px; color: rgba(255,255,255,0.4); margin-right: 15px; font-family: monospace; }
         .client-cat-badge { font-size: 10px; text-transform: uppercase; padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 999px; margin-left: 15px; }
         
@@ -235,6 +220,18 @@
         /* INVOICES */
         .invoice-card { padding: 40px; }
         .inv-item-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr auto; gap: 12px; margin-bottom: 12px; align-items: center; }
+
+        /* ASSIGNEE CHIPS (Multiple selection) */
+        .assignee-chip {
+            background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer;
+            color: var(--text-main); transition: 0.2s; user-select: none;
+        }
+        .assignee-chip:hover { border-color: rgba(255,255,255,0.3); }
+        .assignee-chip.selected {
+            background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.6);
+            box-shadow: var(--glow-hover);
+        }
 
         /* === CHATBOT UI === */
         #chatbot-trigger {
@@ -315,38 +312,24 @@
         }
     </style>
     
-    <!-- GENERATE 70 AVATARS DYNAMICALLY -->
+    <!-- GENERATE AVATAR CSS DYNAMICALLY (70 Total) -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const patterns = [
-                // 1. Y2K Star
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z'/%3E%3C/svg%3E")`,
-                // 2. Planet
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='25' stroke='COLOR' stroke-width='4' fill='none'/%3E%3Cellipse cx='50' cy='50' rx='40' ry='8' stroke='COLOR' stroke-width='2' fill='none' transform='rotate(-20 50 50)'/%3E%3C/svg%3E")`,
-                // 3. Scattered Dots
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='20' cy='30' r='4' fill='COLOR'/%3E%3Ccircle cx='70' cy='20' r='6' fill='COLOR'/%3E%3Ccircle cx='40' cy='70' r='3' fill='COLOR'/%3E%3Ccircle cx='80' cy='80' r='5' fill='COLOR'/%3E%3Ccircle cx='15' cy='80' r='2' fill='COLOR'/%3E%3C/svg%3E")`,
-                // 4. Glowing Black Hole
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='COLOR' stroke-width='10' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='COLOR' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='10' fill='COLOR'/%3E%3C/svg%3E")`,
-                // 5. Arroba (@)
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='60' font-weight='bold' fill='COLOR' font-family='sans-serif'%3E%40%3C/text%3E%3C/svg%3E")`,
-                // 6. Spider
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='12' fill='COLOR'/%3E%3Cpath stroke='COLOR' stroke-width='4' stroke-linecap='round' fill='none' d='M50 50 Q20 30 15 50 M50 50 Q20 50 15 70 M50 50 Q30 70 25 85 M50 50 Q30 10 25 15 M50 50 Q80 30 85 50 M50 50 Q80 50 85 70 M50 50 Q70 70 75 85 M50 50 Q70 10 75 15'/%3E%3C/svg%3E")`,
-                // 7. Spaceship
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
-                // 8. Y2K Star 2
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
-                // 9. Asterisk
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
-                // 10. Grid
                 `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
-                // 11. Micro Dots
                 `radial-gradient(CSS_COL 1px, transparent 1px)`, 
-                // 12. Diagonal
                 `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                // 13. Concentric
                 `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                // 14. Horizontal Lines
                 `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
             ];
             
@@ -599,8 +582,8 @@
                     </select>
                 </div>
                 <div style="flex:1; min-width: 150px;">
-                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Assign To</label>
-                    <select id="task-input-assignee"></select>
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Assign To (Multiple)</label>
+                    <div id="task-input-assignee-container" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
                 </div>
                 <div style="flex:1; min-width: 150px;">
                     <label class="secondary-text" style="display:block; margin-bottom:5px;">Publish Date</label>
@@ -624,8 +607,9 @@
                         <option value="To Publish">To Publish</option>
                         <option value="Published">Published</option>
                     </select>
+                    <button onclick="updateTaskStatus()" style="flex: 1; min-width: 80px;">add</button>
                 </div>
-                <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only the assigned user can update the status.</p>
+                <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only assigned users can update the status.</p>
 
                 <div id="task-link-rec-group" class="input-group">
                     <label class="secondary-text" style="display:block; margin-bottom:5px;">Recording Link <span id="lbl-rec-user"></span></label>
@@ -967,13 +951,29 @@
             } else { alert("Incorrect PIN."); }
         }
 
+        // === MULTIPLE ASSIGNEES (CHIPS) ===
+        let selectedAssignees = [];
+        
         function updateAssigneeDropdowns() {
-            let options = `<option value="">Unassigned</option>`;
-            profiles.forEach(p => { options += `<option value="${p.id}">${p.name}</option>`; });
-            document.getElementById('task-input-assignee').innerHTML = options;
+            let html = '';
+            profiles.forEach(p => {
+                html += `<div class="assignee-chip" id="assignee-chip-${p.id}" onclick="toggleAssignee('${p.id}')">${p.name}</div>`;
+            });
+            document.getElementById('task-input-assignee-container').innerHTML = html;
         }
 
-        // === TASK BOARD (UNIFIED) ===
+        function toggleAssignee(id) {
+            const el = document.getElementById(`assignee-chip-${id}`);
+            if(selectedAssignees.includes(id)) {
+                selectedAssignees = selectedAssignees.filter(a => a !== id);
+                el.classList.remove('selected');
+            } else {
+                selectedAssignees.push(id);
+                el.classList.add('selected');
+            }
+        }
+
+        // === TASK BOARD ===
         function getTaskProgress(status) {
             switch(status) {
                 case "Not Started": return 0;
@@ -1012,7 +1012,8 @@
             clients.forEach(c => {
                 if(!c.tasks) return;
                 c.tasks.forEach(t => {
-                    if(t.assignedTo === viewingUserId) assignedTasks.push({ ...t, clientId: c.id, clientName: c.name });
+                    const assignees = Array.isArray(t.assignedTo) ? t.assignedTo : (t.assignedTo ? [t.assignedTo] : []);
+                    if(assignees.includes(viewingUserId)) assignedTasks.push({ ...t, clientId: c.id, clientName: c.name });
                 });
             });
 
@@ -1244,8 +1245,9 @@
 
             singleTasks.forEach(t => {
                 const currentStatus = t.history[t.history.length-1].status;
-                const assignedUser = profiles.find(p => p.id === t.assignedTo);
-                const userBadge = assignedUser ? `<span style="font-size:9px; opacity:0.7;">(Assigned: ${assignedUser.name})</span>` : '';
+                const assignees = Array.isArray(t.assignedTo) ? t.assignedTo : (t.assignedTo ? [t.assignedTo] : []);
+                const assignedNames = assignees.map(id => profiles.find(p => p.id === id)?.name).filter(Boolean).join(', ');
+                const userBadge = assignedNames ? `<span style="font-size:9px; opacity:0.7;">(Assigned: ${assignedNames})</span>` : '';
                 container.innerHTML += `
                     <div class="calendar-day" style="min-height: auto; margin-bottom: 10px;" onclick="openTaskModal('${t.id}')">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1262,6 +1264,10 @@
         function openTaskModal(taskId = null, day = null) {
             const month = document.getElementById('task-month-selector').value;
             
+            // Unselect all chips
+            selectedAssignees = [];
+            document.querySelectorAll('.assignee-chip').forEach(el => el.classList.remove('selected'));
+
             if(!taskId) {
                 document.getElementById('task-modal-title').innerText = "add grid task";
                 document.getElementById('task-modal-id').value = '';
@@ -1269,10 +1275,8 @@
                 document.getElementById('task-input-name').value = '';
                 document.getElementById('task-input-idea').value = '';
                 document.getElementById('task-input-type').value = 'Videos';
-                document.getElementById('task-input-assignee').value = currentProfile.id;
                 document.getElementById('task-input-date-display').value = day ? `${month} ${day}, ${currentYear}` : 'Standalone Task';
                 document.getElementById('task-edit-history').style.display = 'none';
-                
                 document.getElementById('btn-delete-client-task').style.display = 'none';
             } else {
                 const client = clients.find(c => c.id === activeClientIdForPanel);
@@ -1284,8 +1288,13 @@
                 document.getElementById('task-input-name').value = task.name;
                 document.getElementById('task-input-idea').value = task.idea || '';
                 document.getElementById('task-input-type').value = task.contentType;
-                document.getElementById('task-input-assignee').value = task.assignedTo || '';
                 
+                selectedAssignees = Array.isArray(task.assignedTo) ? task.assignedTo : (task.assignedTo ? [task.assignedTo] : []);
+                selectedAssignees.forEach(id => {
+                    const el = document.getElementById(`assignee-chip-${id}`);
+                    if(el) el.classList.add('selected');
+                });
+
                 if(task.isStandalone) {
                     document.getElementById('task-input-date-display').value = 'Standalone Task';
                 } else {
@@ -1311,8 +1320,8 @@
                 
                 document.getElementById('btn-delete-client-task').style.display = 'inline-flex';
 
-                // Check permissions
-                const canEditStatus = task.assignedTo === currentProfile.id;
+                // Permissions
+                const canEditStatus = selectedAssignees.length === 0 || selectedAssignees.includes(currentProfile.id);
                 document.getElementById('task-status-updater-area').style.display = canEditStatus ? 'flex' : 'none';
                 document.getElementById('task-readonly-msg').style.display = !canEditStatus ? 'block' : 'none';
             }
@@ -1324,7 +1333,7 @@
             const name = document.getElementById('task-input-name').value.trim();
             const idea = document.getElementById('task-input-idea').value.trim();
             const type = document.getElementById('task-input-type').value;
-            const assignee = document.getElementById('task-input-assignee').value;
+            const assignees = [...selectedAssignees];
             
             if(!name) return alert("Task title required.");
 
@@ -1336,7 +1345,7 @@
                 task.name = name;
                 task.idea = idea;
                 task.contentType = type;
-                task.assignedTo = assignee;
+                task.assignedTo = assignees;
             } else {
                 const month = document.getElementById('task-month-selector').value;
                 const day = document.getElementById('task-modal-day').value;
@@ -1350,7 +1359,7 @@
                     name: name, 
                     idea: idea, 
                     contentType: type,
-                    assignedTo: assignee,
+                    assignedTo: assignees,
                     deliveryDate: "", feedback: "", adjDate: "", apprvDate: "",
                     history: [{ status: "Not Started", user: currentProfile.name, date: new Date().toLocaleDateString() }],
                     data: { linkGrabacion: null, linkAprobado: null }
@@ -1374,9 +1383,7 @@
             task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
-                // Instantly update UI without closing
                 document.getElementById('task-new-status').value = '';
-                
                 let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
                 document.getElementById('task-status-timeline').innerHTML = historyHTML;
                 
@@ -1537,7 +1544,7 @@
 
         // === FAST TASK BOT ===
         let chatState = 0;
-        let chatData = { clientId: '', title: '', type: '', assignee: '' };
+        let chatData = { clientId: '', title: '', type: '', assignees: [] };
         
         function toggleChatbot() {
             const win = document.getElementById('chatbot-window');
@@ -1551,7 +1558,7 @@
 
         function resetChat() {
             chatState = 0;
-            chatData = { clientId: '', title: '', type: '', assignee: '' };
+            chatData = { clientId: '', title: '', type: '', assignees: [] };
             document.getElementById('chat-body').innerHTML = '<div class="chat-msg bot">Hi! I can help you register a new single task quickly. Click "Start" to begin.</div>';
             document.getElementById('chat-input-area').innerHTML = '<button class="chat-btn" onclick="startChatFlow()">Start</button>';
         }
@@ -1604,24 +1611,40 @@
 
         function chatSelectType(type) {
             chatData.type = type;
+            chatData.assignees = [];
             appendMsg(type, "user");
-            appendMsg("Who should be assigned to this task?", "bot");
-            let btnHtml = '<button class="chat-btn" onclick="chatSelectAssignee(\'\', \'Unassigned\')">Unassigned</button>';
+            appendMsg("Who should be assigned to this task? (You can select multiple)", "bot");
+            
+            let btnHtml = '';
             profiles.forEach(p => {
-                btnHtml += `<button class="chat-btn" onclick="chatSelectAssignee('${p.id}', '${p.name}')">${p.name}</button>`;
+                btnHtml += `<button id="chat-btn-usr-${p.id}" class="chat-btn" onclick="chatToggleAssignee('${p.id}', '${p.name.replace(/'/g, "\\'")}')">${p.name}</button>`;
             });
+            btnHtml += `<button class="chat-btn" style="background:#fff; color:#000;" onclick="chatFinishTask()">Done / Create Task</button>`;
             document.getElementById('chat-input-area').innerHTML = btnHtml;
         }
 
-        function chatSelectAssignee(id, name) {
-            chatData.assignee = id;
-            appendMsg(name, "user");
+        function chatToggleAssignee(id, name) {
+            const btn = document.getElementById(`chat-btn-usr-${id}`);
+            if(chatData.assignees.includes(id)) {
+                chatData.assignees = chatData.assignees.filter(a => a !== id);
+                btn.style.background = 'rgba(255,255,255,0.05)';
+                btn.style.borderColor = 'rgba(255,255,255,0.2)';
+            } else {
+                chatData.assignees.push(id);
+                btn.style.background = 'rgba(37,99,235,0.4)';
+                btn.style.borderColor = 'rgba(37,99,235,0.6)';
+            }
+        }
+
+        function chatFinishTask() {
+            const names = chatData.assignees.map(id => profiles.find(p=>p.id===id)?.name).join(', ') || 'Unassigned';
+            appendMsg(`Assigned to: ${names}`, "user");
             
             const client = clients.find(c => c.id === chatData.clientId);
             let updatedTasks = [...client.tasks];
             updatedTasks.unshift({
                 id: Date.now().toString(), isStandalone: true, month: "", expectedDay: null, 
-                name: chatData.title, idea: "", contentType: chatData.type, assignedTo: chatData.assignee,
+                name: chatData.title, idea: "", contentType: chatData.type, assignedTo: chatData.assignees,
                 deliveryDate: "", feedback: "", adjDate: "", apprvDate: "",
                 history: [{ status: "Not Started", user: currentProfile.name, date: new Date().toLocaleDateString() }],
                 data: { linkGrabacion: null, linkAprobado: null }
