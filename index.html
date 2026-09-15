@@ -19,7 +19,7 @@
             --blob-2: #2563EB;
             --blob-3: #3B82F6;
             --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
             --glow-hover: 0 0 20px rgba(255, 255, 255, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.05);
             --text-main: #FFFFFF;
             --text-secondary: rgba(255, 255, 255, 0.5);
@@ -132,11 +132,7 @@
         }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        /* FIX: Dropdown Options Contrast */
-        select option {
-            background-color: #ffffff;
-            color: #000000;
-        }
+        select option { background-color: #ffffff; color: #000000; }
 
         /* CARDS & PANELS */
         .card, .modal-content, .side-panel, .dropdown-content {
@@ -262,7 +258,7 @@
         .chat-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #fff; transition: 0.2s; text-decoration: none; }
         .chat-btn:hover { background: rgba(255,255,255,0.2); box-shadow: var(--glow-hover); }
 
-        /* AVATARS (50 Total) */
+        /* AVATARS (70 Total) */
         .avatar-box { width: 40px; height: 40px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
         .avatar-box.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
         .avatar-style-base { background-size: cover; background-position: center; }
@@ -319,7 +315,7 @@
         }
     </style>
     
-    <!-- GENERATE AVATAR CSS DYNAMICALLY (50 Total) -->
+    <!-- GENERATE 70 AVATARS DYNAMICALLY -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -330,30 +326,38 @@
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='25' stroke='COLOR' stroke-width='4' fill='none'/%3E%3Cellipse cx='50' cy='50' rx='40' ry='8' stroke='COLOR' stroke-width='2' fill='none' transform='rotate(-20 50 50)'/%3E%3C/svg%3E")`,
                 // 3. Scattered Dots
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='20' cy='30' r='4' fill='COLOR'/%3E%3Ccircle cx='70' cy='20' r='6' fill='COLOR'/%3E%3Ccircle cx='40' cy='70' r='3' fill='COLOR'/%3E%3Ccircle cx='80' cy='80' r='5' fill='COLOR'/%3E%3Ccircle cx='15' cy='80' r='2' fill='COLOR'/%3E%3C/svg%3E")`,
-                // 4. Glowing Black Hole / Center Dot
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='COLOR' stroke-width='10' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='COLOR' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='10' fill='%23000'/%3E%3C/svg%3E")`,
-                // 5. Alien Face
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 20 C20 20 20 65 50 90 C80 65 80 20 50 20 Z M35 60 C30 50 40 45 45 55 C42 60 38 65 35 60 Z M65 60 C68 50 58 45 55 55 C58 60 62 65 65 60 Z'/%3E%3C/svg%3E")`,
-                // 6. Grid
+                // 4. Glowing Black Hole
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='COLOR' stroke-width='10' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='COLOR' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='10' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 5. Arroba (@)
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='60' font-weight='bold' fill='COLOR' font-family='sans-serif'%3E%40%3C/text%3E%3C/svg%3E")`,
+                // 6. Spider
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='12' fill='COLOR'/%3E%3Cpath stroke='COLOR' stroke-width='4' stroke-linecap='round' fill='none' d='M50 50 Q20 30 15 50 M50 50 Q20 50 15 70 M50 50 Q30 70 25 85 M50 50 Q30 10 25 15 M50 50 Q80 30 85 50 M50 50 Q80 50 85 70 M50 50 Q70 70 75 85 M50 50 Q70 10 75 15'/%3E%3C/svg%3E")`,
+                // 7. Spaceship
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
+                // 8. Y2K Star 2
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
+                // 9. Asterisk
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
+                // 10. Grid
                 `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
-                // 7. Micro Dots (Radial)
+                // 11. Micro Dots
                 `radial-gradient(CSS_COL 1px, transparent 1px)`, 
-                // 8. Diagonal
+                // 12. Diagonal
                 `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                // 9. Concentric
+                // 13. Concentric
                 `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                // 10. Horizontal Lines
+                // 14. Horizontal Lines
                 `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
             ];
             
-            const sizes = ["auto", "auto", "auto", "auto", "auto", "8px 8px", "6px 6px", "auto", "auto", "auto"];
+            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px", "6px 6px", "auto", "auto", "auto"];
 
             const bases = [
-                { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, // White on Black
-                { bg: "#fff", colSVG: "%23000000", colCSS: "rgba(0,0,0,0.7)" }, // Black on White
-                { bg: "linear-gradient(135deg, #020617, #1e3a8a)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }, // White on Blue-Black
-                { bg: "linear-gradient(135deg, #170220, #6b21a8)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }, // White on Purple-Black
-                { bg: "linear-gradient(135deg, #1e3a8a, #7e22ce)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }  // White on Blue-Purple
+                { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, 
+                { bg: "#fff", colSVG: "%23000000", colCSS: "rgba(0,0,0,0.7)" }, 
+                { bg: "linear-gradient(135deg, #020617, #1e3a8a)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }, 
+                { bg: "linear-gradient(135deg, #170220, #6b21a8)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }, 
+                { bg: "linear-gradient(135deg, #1e3a8a, #7e22ce)", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.5)" }
             ];
 
             let css = "";
@@ -701,9 +705,9 @@
             </select>
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-50)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
             
@@ -723,9 +727,9 @@
             <p class="secondary-text" style="margin:20px 0 12px;">new pin (optional)</p>
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-50)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
 
@@ -854,7 +858,7 @@
 
         function selectAvatar(mode, id) {
             document.getElementById(`selected-avatar-${mode}`).value = id;
-            for(let i=1; i<=50; i++){
+            for(let i=1; i<=70; i++){
                 const box = document.getElementById(`av-${mode}-${i}`);
                 if(box) box.classList.remove('selected');
             }
@@ -898,7 +902,6 @@
                 currentProfile = selectedProfileLogin;
                 document.getElementById('header-username').innerText = currentProfile.name;
                 
-                // Show avatar in header
                 const headerAv = document.getElementById('header-avatar');
                 headerAv.style.display = 'inline-block';
                 headerAv.className = `avatar-box avatar-style-base av-${currentProfile.avatar}`;
