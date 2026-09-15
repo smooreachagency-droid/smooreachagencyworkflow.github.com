@@ -132,6 +132,12 @@
         }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
 
+        /* FIX: Dropdown Options Contrast */
+        select option {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
         /* CARDS & PANELS */
         .card, .modal-content, .side-panel, .dropdown-content {
             background: var(--glass-bg); border: var(--glass-border);
@@ -683,7 +689,9 @@
         <div id="pdf-calendar-container" style="color: #000;"></div>
     </div>
 
-    <!-- === OTHER MODALS === -->
+    <!-- === MODALS FOR CLIENTS & PROFILES === -->
+    
+    <!-- CREATE PROFILE -->
     <div id="create-profile-modal" class="modal">
         <div class="modal-content">
             <h3>new profile</h3><br>
@@ -704,6 +712,7 @@
         </div>
     </div>
 
+    <!-- EDIT PROFILE -->
     <div id="edit-profile-modal" class="modal">
         <div class="modal-content">
             <h3>edit profile</h3><br>
@@ -735,6 +744,7 @@
         </div>
     </div>
 
+    <!-- CREATE CLIENT -->
     <div id="create-client-modal" class="modal">
         <div class="modal-content">
             <h3>new client</h3><br>
@@ -888,6 +898,7 @@
                 currentProfile = selectedProfileLogin;
                 document.getElementById('header-username').innerText = currentProfile.name;
                 
+                // Show avatar in header
                 const headerAv = document.getElementById('header-avatar');
                 headerAv.style.display = 'inline-block';
                 headerAv.className = `avatar-box avatar-style-base av-${currentProfile.avatar}`;
@@ -1360,6 +1371,7 @@
             task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
+                // Instantly update UI without closing
                 document.getElementById('task-new-status').value = '';
                 
                 let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
