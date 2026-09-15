@@ -96,7 +96,7 @@
         h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
         .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
 
-        /* LAYOUT & COMPONENTS */
+        /* LAYOUT & COMPONENTS (GLASSMORPHISM) */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
 
         button {
@@ -109,7 +109,12 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         }
         button svg { width: 14px; height: 14px; fill: currentColor; }
-        button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: var(--glow-hover); }
+        button:hover { 
+            background: rgba(255, 255, 255, 0.1); 
+            border-color: rgba(255, 255, 255, 0.4); 
+            transform: translateY(-2px); 
+            box-shadow: var(--glow-hover);
+        }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         input, select, textarea {
@@ -120,8 +125,13 @@
             outline: none; transition: all 0.3s ease;
         }
         textarea { resize: vertical; min-height: 60px; }
-        input:focus, select:focus, textarea:focus { border-color: rgba(255, 255, 255, 0.5); background: rgba(255,255,255,0.06); box-shadow: var(--glow-hover); }
+        input:focus, select:focus, textarea:focus { 
+            border-color: rgba(255, 255, 255, 0.5); 
+            background: rgba(255,255,255,0.06); 
+            box-shadow: var(--glow-hover);
+        }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
+
         select option { background-color: #ffffff; color: #000000; }
 
         /* CARDS & PANELS */
@@ -136,7 +146,8 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px 32px; margin-bottom: 50px; position: sticky; top: 20px; z-index: 50;
             background: rgba(2, 4, 10, 0.2); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: var(--glass-border); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: var(--glass-border); border-radius: 999px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
@@ -150,6 +161,7 @@
         .dropdown-item { padding: 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: 0.2s; border: 1px solid transparent; }
         .dropdown-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.1); box-shadow: var(--glow-hover); }
         .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
+        
         #header-avatar { display: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
 
         /* LOCK SCREEN */
@@ -177,7 +189,10 @@
             border: var(--glass-border); border-radius: 20px; backdrop-filter: blur(25px);
             transition: all 0.3s ease; flex-wrap: wrap; gap: 15px;
         }
-        .client-list-item:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); box-shadow: var(--glow-hover); transform: translateY(-2px); }
+        .client-list-item:hover { 
+            border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); 
+            box-shadow: var(--glow-hover); transform: translateY(-2px);
+        }
         .client-id { font-size: 11px; color: rgba(255,255,255,0.4); margin-right: 15px; font-family: monospace; }
         .client-cat-badge { font-size: 10px; text-transform: uppercase; padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 999px; margin-left: 15px; }
         
@@ -255,7 +270,7 @@
         .chat-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #fff; transition: 0.2s; text-decoration: none; }
         .chat-btn:hover { background: rgba(255,255,255,0.2); box-shadow: var(--glow-hover); }
 
-        /* AVATARS (70 Total) */
+        /* AVATARS (50 Total) */
         .avatar-box { width: 40px; height: 40px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
         .avatar-box.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
         .avatar-style-base { background-size: cover; background-position: center; }
@@ -312,7 +327,7 @@
         }
     </style>
     
-    <!-- GENERATE AVATAR CSS DYNAMICALLY (70 Total) -->
+    <!-- GENERATE AVATAR CSS DYNAMICALLY (50 Total) -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -326,14 +341,10 @@
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
-                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
-                `radial-gradient(CSS_COL 1px, transparent 1px)`, 
-                `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
+                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`
             ];
             
-            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px", "6px 6px", "auto", "auto", "auto"];
+            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px"];
 
             const bases = [
                 { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, 
@@ -534,6 +545,7 @@
                     <option value="Editing">Editing</option>
                     <option value="Internal Review">Internal Review</option>
                     <option value="Client Review">Client Review</option>
+                    <option value="Adjustment">Adjustment</option>
                     <option value="Approved">Approved</option>
                     <option value="To Publish">To Publish</option>
                     <option value="Published">Published</option>
@@ -582,7 +594,7 @@
                     </select>
                 </div>
                 <div style="flex:1; min-width: 150px;">
-                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Assign To (Multiple)</label>
+                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Assign To</label>
                     <div id="task-input-assignee-container" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
                 </div>
                 <div style="flex:1; min-width: 150px;">
@@ -603,11 +615,11 @@
                         <option value="Editing">Editing</option>
                         <option value="Internal Review">Internal Review</option>
                         <option value="Client Review">Client Review</option>
+                        <option value="Adjustment">Adjustment</option>
                         <option value="Approved">Approved</option>
                         <option value="To Publish">To Publish</option>
                         <option value="Published">Published</option>
                     </select>
-                    <button onclick="updateTaskStatus()" style="flex: 1; min-width: 80px;">add</button>
                 </div>
                 <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only assigned users can update the status.</p>
 
@@ -689,9 +701,9 @@
             </select>
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-50)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
             
@@ -711,9 +723,9 @@
             <p class="secondary-text" style="margin:20px 0 12px;">new pin (optional)</p>
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-50)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
 
@@ -795,7 +807,7 @@
         let activeClientIdForPanel = null;
         const currentYear = 2026;
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const taskStatuses = ["Not Started", "Recording Finished", "Editing", "Internal Review", "Client Review", "Approved", "To Publish", "Published"];
+        const taskStatuses = ["Not Started", "Recording Finished", "Editing", "Internal Review", "Client Review", "Adjustment", "Approved", "To Publish", "Published"];
         
         const bankData = {
             'EEUU': ['JPMorgan Chase', 'Bank of America', 'Wells Fargo', 'Citibank', 'U.S. Bank', 'PNC Bank', 'Truist', 'Goldman Sachs', 'TD Bank', 'Capital One', 'Morgan Stanley', 'Ally Bank', 'Stripe'],
@@ -842,7 +854,7 @@
 
         function selectAvatar(mode, id) {
             document.getElementById(`selected-avatar-${mode}`).value = id;
-            for(let i=1; i<=70; i++){
+            for(let i=1; i<=50; i++){
                 const box = document.getElementById(`av-${mode}-${i}`);
                 if(box) box.classList.remove('selected');
             }
@@ -973,7 +985,7 @@
             }
         }
 
-        // === TASK BOARD ===
+        // === TASK BOARD (UNIFIED) ===
         function getTaskProgress(status) {
             switch(status) {
                 case "Not Started": return 0;
@@ -981,6 +993,7 @@
                 case "Editing": return 40;
                 case "Internal Review": return 60;
                 case "Client Review": return 80;
+                case "Adjustment": return 75;
                 case "Approved": return 100;
                 case "To Publish": return 100;
                 case "Published": return 100;
@@ -1383,7 +1396,9 @@
             task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
+                // Instantly update UI without closing
                 document.getElementById('task-new-status').value = '';
+                
                 let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
                 document.getElementById('task-status-timeline').innerHTML = historyHTML;
                 
@@ -1415,7 +1430,7 @@
             });
         }
 
-        // === CONTENT GRID PDF ===
+        // === CONTENT GRID PDF (CALENDAR VIEW) ===
         function generateGridPDF() {
             const client = clients.find(c => c.id === activeClientIdForPanel);
             const monthName = document.getElementById('task-month-selector').value;
