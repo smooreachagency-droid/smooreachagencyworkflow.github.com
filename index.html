@@ -96,7 +96,7 @@
         h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
         .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
 
-        /* LAYOUT & COMPONENTS (GLASSMORPHISM) */
+        /* LAYOUT & COMPONENTS */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
 
         button {
@@ -109,12 +109,7 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         }
         button svg { width: 14px; height: 14px; fill: currentColor; }
-        button:hover { 
-            background: rgba(255, 255, 255, 0.1); 
-            border-color: rgba(255, 255, 255, 0.4); 
-            transform: translateY(-2px); 
-            box-shadow: var(--glow-hover);
-        }
+        button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: var(--glow-hover); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         input, select, textarea {
@@ -125,13 +120,8 @@
             outline: none; transition: all 0.3s ease;
         }
         textarea { resize: vertical; min-height: 60px; }
-        input:focus, select:focus, textarea:focus { 
-            border-color: rgba(255, 255, 255, 0.5); 
-            background: rgba(255,255,255,0.06); 
-            box-shadow: var(--glow-hover);
-        }
+        input:focus, select:focus, textarea:focus { border-color: rgba(255, 255, 255, 0.5); background: rgba(255,255,255,0.06); box-shadow: var(--glow-hover); }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
-
         select option { background-color: #ffffff; color: #000000; }
 
         /* CARDS & PANELS */
@@ -146,8 +136,7 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px 32px; margin-bottom: 50px; position: sticky; top: 20px; z-index: 50;
             background: rgba(2, 4, 10, 0.2); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: var(--glass-border); border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: var(--glass-border); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
@@ -161,7 +150,6 @@
         .dropdown-item { padding: 14px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: 0.2s; border: 1px solid transparent; }
         .dropdown-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.1); box-shadow: var(--glow-hover); }
         .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
-        
         #header-avatar { display: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
 
         /* LOCK SCREEN */
@@ -189,10 +177,7 @@
             border: var(--glass-border); border-radius: 20px; backdrop-filter: blur(25px);
             transition: all 0.3s ease; flex-wrap: wrap; gap: 15px;
         }
-        .client-list-item:hover { 
-            border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); 
-            box-shadow: var(--glow-hover); transform: translateY(-2px);
-        }
+        .client-list-item:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); box-shadow: var(--glow-hover); transform: translateY(-2px); }
         .client-id { font-size: 11px; color: rgba(255,255,255,0.4); margin-right: 15px; font-family: monospace; }
         .client-cat-badge { font-size: 10px; text-transform: uppercase; padding: 4px 10px; background: rgba(255,255,255,0.1); border-radius: 999px; margin-left: 15px; }
         
@@ -236,17 +221,14 @@
         .invoice-card { padding: 40px; }
         .inv-item-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr auto; gap: 12px; margin-bottom: 12px; align-items: center; }
 
-        /* ASSIGNEE CHIPS (Multiple selection) */
+        /* ASSIGNEE CHIPS */
         .assignee-chip {
             background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px; padding: 8px 12px; font-size: 12px; cursor: pointer;
             color: var(--text-main); transition: 0.2s; user-select: none;
         }
         .assignee-chip:hover { border-color: rgba(255,255,255,0.3); }
-        .assignee-chip.selected {
-            background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.6);
-            box-shadow: var(--glow-hover);
-        }
+        .assignee-chip.selected { background: rgba(37,99,235,0.3); border-color: rgba(37,99,235,0.6); box-shadow: var(--glow-hover); }
 
         /* === CHATBOT UI === */
         #chatbot-trigger {
@@ -327,7 +309,7 @@
         }
     </style>
     
-    <!-- GENERATE AVATAR CSS DYNAMICALLY (50 Total) -->
+    <!-- GENERATE AVATAR CSS DYNAMICALLY -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -447,9 +429,26 @@
                         <h2>team task board</h2>
                         <p class="secondary-text">manage internal workflow</p>
                     </div>
-                    <div>
-                        <label class="secondary-text" style="margin-right:10px;">Viewing Taskboard for:</label>
-                        <select id="taskboard-user-select" onchange="renderTaskBoard()" style="width:auto; min-width:200px;"></select>
+                    <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                        <div>
+                            <label class="secondary-text" style="margin-right:10px; display:block; margin-bottom:5px;">Viewing Taskboard for:</label>
+                            <select id="taskboard-user-select" onchange="renderTaskBoard()" style="width:auto; min-width:200px; margin:0;"></select>
+                        </div>
+                        <div>
+                            <label class="secondary-text" style="margin-right:10px; display:block; margin-bottom:5px;">Status Filter:</label>
+                            <select id="taskboard-status-filter" onchange="renderTaskBoard()" style="width:auto; min-width:150px; margin:0;">
+                                <option value="">All Statuses</option>
+                                <option value="Not Started">Not Started</option>
+                                <option value="Recording Finished">Recording Finished</option>
+                                <option value="Editing">Editing</option>
+                                <option value="Internal Review">Internal Review</option>
+                                <option value="Client Review">Client Review</option>
+                                <option value="Adjustment">Adjustment</option>
+                                <option value="Approved">Approved</option>
+                                <option value="To Publish">To Publish</option>
+                                <option value="Published">Published</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
@@ -620,6 +619,7 @@
                         <option value="To Publish">To Publish</option>
                         <option value="Published">Published</option>
                     </select>
+                    <button onclick="updateTaskStatus()" style="flex: 1; min-width: 80px;">add</button>
                 </div>
                 <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only assigned users can update the status.</p>
 
@@ -963,26 +963,10 @@
             } else { alert("Incorrect PIN."); }
         }
 
-        // === MULTIPLE ASSIGNEES (CHIPS) ===
-        let selectedAssignees = [];
-        
         function updateAssigneeDropdowns() {
-            let html = '';
-            profiles.forEach(p => {
-                html += `<div class="assignee-chip" id="assignee-chip-${p.id}" onclick="toggleAssignee('${p.id}')">${p.name}</div>`;
-            });
-            document.getElementById('task-input-assignee-container').innerHTML = html;
-        }
-
-        function toggleAssignee(id) {
-            const el = document.getElementById(`assignee-chip-${id}`);
-            if(selectedAssignees.includes(id)) {
-                selectedAssignees = selectedAssignees.filter(a => a !== id);
-                el.classList.remove('selected');
-            } else {
-                selectedAssignees.push(id);
-                el.classList.add('selected');
-            }
+            let options = `<option value="">Unassigned</option>`;
+            profiles.forEach(p => { options += `<option value="${p.id}">${p.name}</option>`; });
+            document.getElementById('task-input-assignee').innerHTML = options;
         }
 
         // === TASK BOARD (UNIFIED) ===
@@ -1004,6 +988,7 @@
         function renderTaskBoard() {
             const tbody = document.getElementById('task-board-body');
             const userSelect = document.getElementById('taskboard-user-select');
+            const statusFilterInput = document.getElementById('taskboard-status-filter');
             
             if(userSelect.options.length === 0) {
                 profiles.forEach(p => {
@@ -1015,6 +1000,8 @@
             
             tbody.innerHTML = '';
             const viewingUserId = userSelect.value;
+            const statusFilter = statusFilterInput ? statusFilterInput.value : "";
+            
             const viewingUser = profiles.find(p => p.id === viewingUserId);
             if(!viewingUser) return;
 
@@ -1026,7 +1013,12 @@
                 if(!c.tasks) return;
                 c.tasks.forEach(t => {
                     const assignees = Array.isArray(t.assignedTo) ? t.assignedTo : (t.assignedTo ? [t.assignedTo] : []);
-                    if(assignees.includes(viewingUserId)) assignedTasks.push({ ...t, clientId: c.id, clientName: c.name });
+                    if(assignees.includes(viewingUserId)) {
+                        const currentStatus = t.history[t.history.length-1].status;
+                        if(statusFilter === "" || currentStatus === statusFilter) {
+                            assignedTasks.push({ ...t, clientId: c.id, clientName: c.name });
+                        }
+                    }
                 });
             });
 
