@@ -96,7 +96,7 @@
         h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
         .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
 
-        /* LAYOUT & COMPONENTS (GLASSMORPHISM) */
+        /* LAYOUT & COMPONENTS */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
 
         button {
@@ -109,12 +109,7 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
         }
         button svg { width: 14px; height: 14px; fill: currentColor; }
-        button:hover { 
-            background: rgba(255, 255, 255, 0.1); 
-            border-color: rgba(255, 255, 255, 0.4); 
-            transform: translateY(-2px); 
-            box-shadow: var(--glow-hover);
-        }
+        button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); box-shadow: var(--glow-hover); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         input, select, textarea {
@@ -125,13 +120,8 @@
             outline: none; transition: all 0.3s ease;
         }
         textarea { resize: vertical; min-height: 60px; }
-        input:focus, select:focus, textarea:focus { 
-            border-color: rgba(255, 255, 255, 0.5); 
-            background: rgba(255,255,255,0.06); 
-            box-shadow: var(--glow-hover);
-        }
+        input:focus, select:focus, textarea:focus { border-color: rgba(255, 255, 255, 0.5); background: rgba(255,255,255,0.06); box-shadow: var(--glow-hover); }
         input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; }
-
         select option { background-color: #ffffff; color: #000000; }
 
         /* CARDS & PANELS */
@@ -146,13 +136,12 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px 32px; margin-bottom: 50px; position: sticky; top: 20px; z-index: 50;
             background: rgba(2, 4, 10, 0.2); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: var(--glass-border); border-radius: 999px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: var(--glass-border); border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
 
-        /* USER DROPDOWN & AVATAR */
+        /* USER DROPDOWN, AVATAR & ONLINE STATUS */
         .user-dropdown { position: relative; display: inline-block; }
         .user-btn { display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: transparent; border: none; box-shadow: none; }
         .user-btn:hover { background: rgba(255,255,255,0.05); transform: none; box-shadow: none; }
@@ -163,6 +152,22 @@
         .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
         
         #header-avatar { display: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
+
+        .avatar-wrapper { position: relative; display: inline-block; }
+        .online-dot { 
+            position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; 
+            background-color: #22c55e; border-radius: 50%; border: 2px solid var(--bg-base);
+            box-shadow: 0 0 10px #22c55e; z-index: 2;
+        }
+
+        /* LINK OPENER BUTTON */
+        .link-btn {
+            background: rgba(37, 99, 235, 0.2); border: 1px solid rgba(37, 99, 235, 0.4);
+            border-radius: 8px; padding: 10px; display: inline-flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; height: 42px; margin-bottom: 10px;
+        }
+        .link-btn:hover { background: rgba(37, 99, 235, 0.5); box-shadow: var(--glow-hover); transform: translateY(-2px); }
+        .link-btn svg { width: 16px; height: 16px; fill: currentColor; }
 
         /* LOCK SCREEN */
         .core-area { position: relative; min-height: 65vh; }
@@ -232,11 +237,7 @@
         }
         .task-chip:hover { background: rgba(37, 99, 235, 0.5); box-shadow: 0 0 10px rgba(37, 99, 235, 0.4); }
 
-        /* INVOICES */
-        .invoice-card { padding: 40px; }
-        .inv-item-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr auto; gap: 12px; margin-bottom: 12px; align-items: center; }
-
-        /* MULTI-SELECT CHIPS (ASSIGNEES & FILTERS) */
+        /* MULTI-SELECT CHIPS */
         .assignee-chip, .filter-chip {
             background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px; padding: 8px 12px; font-size: 11px; cursor: pointer;
@@ -270,7 +271,7 @@
         .chat-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #fff; transition: 0.2s; text-decoration: none; }
         .chat-btn:hover { background: rgba(255,255,255,0.2); box-shadow: var(--glow-hover); }
 
-        /* AVATARS (70 Total) */
+        /* AVATARS (50 Total) */
         .avatar-box { width: 40px; height: 40px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
         .avatar-box.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
         .avatar-style-base { background-size: cover; background-position: center; }
@@ -317,7 +318,6 @@
             .client-list-item button, .client-list-item a { flex: 1; text-align: center; }
             .side-panel { padding: 20px; right: -100vw; max-width: 100vw; border-radius: 0; }
             .invoice-card { padding: 20px; }
-            .inv-item-row { grid-template-columns: 1fr; gap: 10px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: var(--glass-border); }
             .modal-content { padding: 25px; width: 95%; }
             .calendar-day { min-height: 70px; padding: 5px; }
             .day-num { font-size: 11px; }
@@ -327,7 +327,7 @@
         }
     </style>
     
-    <!-- GENERATE AVATAR CSS DYNAMICALLY (70 Total) -->
+    <!-- GENERATE AVATAR CSS DYNAMICALLY (50 Total) -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -341,15 +341,9 @@
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
-                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
-                `radial-gradient(CSS_COL 1px, transparent 1px)`, 
-                `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
+                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)` 
             ];
-            
-            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px", "6px 6px", "auto", "auto", "auto"];
-
+            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px"];
             const bases = [
                 { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, 
                 { bg: "#fff", colSVG: "%23000000", colCSS: "rgba(0,0,0,0.7)" }, 
@@ -408,7 +402,6 @@
             <div class="user-dropdown">
                 <button class="user-btn" onclick="toggleDropdown()">
                     <div id="header-avatar" class="avatar-style-base" style="display:none;"></div>
-                    <svg id="header-svg-user" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     <span id="header-username" class="secondary-text">no user</span>
                 </button>
                 <div id="user-dropdown-menu" class="dropdown-content">
@@ -460,7 +453,6 @@
                 </div>
                 
                 <div class="card" style="padding: 20px;">
-                    <!-- MULTIPLE STATUS FILTER FOR TASKBOARD -->
                     <label class="secondary-text" style="display:block; margin-bottom:10px;">Filter by Statuses:</label>
                     <div id="taskboard-status-filters" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;"></div>
                     
@@ -549,7 +541,6 @@
         </div>
 
         <div id="month-tasks-wrapper" style="display:none; margin-top: 10px;">
-            <!-- MULTIPLE STATUS FILTER FOR CLIENT PANEL -->
             <label class="secondary-text" style="display:block; margin-bottom:10px;">Status Filter:</label>
             <div id="client-status-filters" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:25px;"></div>
             
@@ -622,14 +613,8 @@
                 </div>
                 <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only assigned users can update the status.</p>
 
-                <div id="task-link-rec-group" class="input-group">
-                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Recording Link <span id="lbl-rec-user"></span></label>
-                    <input type="text" id="task-link-rec" placeholder="URL..." style="margin:0;" onchange="saveTaskDataModal('linkGrabacion', this.value)">
-                </div>
-                <div id="task-link-app-group" class="input-group">
-                    <label class="secondary-text" style="display:block; margin-bottom:5px;">Approved Link <span id="lbl-app-user"></span></label>
-                    <input type="text" id="task-link-app" placeholder="URL..." style="margin:0;" onchange="saveTaskDataModal('linkAprobado', this.value)">
-                </div>
+                <div id="task-link-rec-wrapper"></div>
+                <div id="task-link-app-wrapper"></div>
             </div>
 
             <button onclick="saveTaskAction()" style="width:100%; margin-top:20px; background: #fff; color: #000;">
@@ -700,9 +685,9 @@
             </select>
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-50)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
             
@@ -722,9 +707,9 @@
             <p class="secondary-text" style="margin:20px 0 12px;">new pin (optional)</p>
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-50)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
 
@@ -851,6 +836,11 @@
             }
         });
 
+        // Mark user offline when closing tab
+        window.addEventListener("beforeunload", () => {
+            if(currentProfile) db.collection("profiles").doc(currentProfile.id).update({ isOnline: false });
+        });
+
         // === UTILS ===
         function openModal(id) { document.getElementById(id).style.display = 'flex'; document.getElementById('user-dropdown-menu').classList.remove('show'); }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -864,7 +854,7 @@
 
         function selectAvatar(mode, id) {
             document.getElementById(`selected-avatar-${mode}`).value = id;
-            for(let i=1; i<=70; i++){
+            for(let i=1; i<=50; i++){
                 const box = document.getElementById(`av-${mode}-${i}`);
                 if(box) box.classList.remove('selected');
             }
@@ -877,11 +867,8 @@
             if(status === 'All') {
                 activeTaskboardStatuses = [];
             } else {
-                if(activeTaskboardStatuses.includes(status)) {
-                    activeTaskboardStatuses = activeTaskboardStatuses.filter(s => s !== status);
-                } else {
-                    activeTaskboardStatuses.push(status);
-                }
+                if(activeTaskboardStatuses.includes(status)) activeTaskboardStatuses = activeTaskboardStatuses.filter(s => s !== status);
+                else activeTaskboardStatuses.push(status);
             }
             renderTaskboardFilters();
             renderTaskBoard();
@@ -902,11 +889,8 @@
             if(status === 'All') {
                 activeClientStatuses = [];
             } else {
-                if(activeClientStatuses.includes(status)) {
-                    activeClientStatuses = activeClientStatuses.filter(s => s !== status);
-                } else {
-                    activeClientStatuses.push(status);
-                }
+                if(activeClientStatuses.includes(status)) activeClientStatuses = activeClientStatuses.filter(s => s !== status);
+                else activeClientStatuses.push(status);
             }
             renderClientFilters();
             renderCalendar();
@@ -931,7 +915,7 @@
             const avatar = document.getElementById('selected-avatar-create').value;
             if(!name || pin.length !== 4) return alert("Valid Name and 4-digit PIN required.");
             
-            db.collection("profiles").add({ name, pin, role: document.getElementById('new-prof-role').value, avatar });
+            db.collection("profiles").add({ name, pin, role: document.getElementById('new-prof-role').value, avatar, isOnline: false });
             
             document.getElementById('new-prof-name').value = ''; document.getElementById('new-prof-pin').value = '';
             selectAvatar('create', 1);
@@ -944,7 +928,14 @@
             profiles.forEach(p => {
                 const div = document.createElement('div');
                 div.className = 'dropdown-item';
-                div.innerHTML = `<div class="avatar-box avatar-style-base av-${p.avatar}" style="width:30px;height:30px; border:1px solid rgba(255,255,255,0.2);"></div> <div><div style="font-weight:500; font-size:13px;">${p.name}</div><div class="secondary-text" style="font-size:10px;">${p.role}</div></div>`;
+                const onlineDot = p.isOnline ? '<div class="online-dot" title="Online"></div>' : '';
+                div.innerHTML = `
+                    <div class="avatar-wrapper">
+                        <div class="avatar-box avatar-style-base av-${p.avatar}" style="width:30px;height:30px; border:1px solid rgba(255,255,255,0.2);"></div>
+                        ${onlineDot}
+                    </div> 
+                    <div><div style="font-weight:500; font-size:13px;">${p.name}</div><div class="secondary-text" style="font-size:10px;">${p.role}</div></div>
+                `;
                 div.onclick = () => {
                     selectedProfileLogin = p;
                     document.getElementById('login-modal-name').innerText = `login // ${p.name.toLowerCase()}`;
@@ -960,32 +951,36 @@
                 currentProfile = selectedProfileLogin;
                 document.getElementById('header-username').innerText = currentProfile.name;
                 
-                const headerAv = document.getElementById('header-avatar');
-                headerAv.style.display = 'inline-block';
-                headerAv.className = `avatar-box avatar-style-base av-${currentProfile.avatar}`;
-                document.getElementById('header-svg-user').style.display = 'none';
-                
-                document.getElementById('lock-screen').classList.add('hidden');
-                document.getElementById('logout-btn').style.display = 'inline-flex';
-                document.getElementById('my-profile-btn').style.display = 'inline-flex';
-                document.getElementById('chatbot-trigger').style.display = 'flex';
-                closeModal('login-modal');
-                renderClientsList();
-                if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
+                db.collection("profiles").doc(currentProfile.id).update({ isOnline: true }).then(() => {
+                    const headerAv = document.getElementById('header-avatar');
+                    headerAv.style.display = 'inline-block';
+                    headerAv.className = `avatar-box avatar-style-base av-${currentProfile.avatar}`;
+                    
+                    document.getElementById('lock-screen').classList.add('hidden');
+                    document.getElementById('logout-btn').style.display = 'inline-flex';
+                    document.getElementById('my-profile-btn').style.display = 'inline-flex';
+                    document.getElementById('chatbot-trigger').style.display = 'flex';
+                    closeModal('login-modal');
+                    renderClientsList();
+                    if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
+                });
             } else { alert("Invalid PIN."); }
         }
 
         function logout() {
-            currentProfile = null;
-            document.getElementById('header-username').innerText = "no user";
-            document.getElementById('header-avatar').style.display = 'none';
-            document.getElementById('header-svg-user').style.display = 'inline-block';
-            document.getElementById('lock-screen').classList.remove('hidden');
-            document.getElementById('logout-btn').style.display = 'none';
-            document.getElementById('my-profile-btn').style.display = 'none';
-            document.getElementById('chatbot-trigger').style.display = 'none';
-            closeSidePanel();
-            switchTab('tab-clients');
+            if(currentProfile) {
+                db.collection("profiles").doc(currentProfile.id).update({ isOnline: false }).then(() => {
+                    currentProfile = null;
+                    document.getElementById('header-username').innerText = "no user";
+                    document.getElementById('header-avatar').style.display = 'none';
+                    document.getElementById('lock-screen').classList.remove('hidden');
+                    document.getElementById('logout-btn').style.display = 'none';
+                    document.getElementById('my-profile-btn').style.display = 'none';
+                    document.getElementById('chatbot-trigger').style.display = 'none';
+                    closeSidePanel();
+                    switchTab('tab-clients');
+                });
+            }
         }
 
         function openMyProfileModal() {
@@ -1030,7 +1025,8 @@
             profiles.forEach(p => {
                 html += `<div class="assignee-chip" id="assignee-chip-${p.id}" onclick="toggleAssignee('${p.id}')">${p.name}</div>`;
             });
-            document.getElementById('task-input-assignee-container').innerHTML = html;
+            const c = document.getElementById('task-input-assignee-container');
+            if(c) c.innerHTML = html;
         }
 
         // === MULTIPLE ASSIGNEES ===
@@ -1054,13 +1050,24 @@
                 case "Recording Finished": return 20;
                 case "Editing": return 40;
                 case "Internal Review": return 60;
-                case "Client Review": return 80;
                 case "Adjustment": return 75;
+                case "Client Review": return 80;
                 case "Approved": return 100;
                 case "To Publish": return 100;
                 case "Published": return 100;
                 default: return 0;
             }
+        }
+
+        function renderLinkInput(clientId, taskId, field, url, disabledStr) {
+            const linkHref = url ? (url.startsWith('http') ? url : 'https://'+url) : '';
+            const linkBtn = url ? `<a href="${linkHref}" target="_blank" title="Abrir enlace" class="link-btn"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a>` : '';
+            return `
+                <div style="display:flex; align-items:center; gap:5px; width:100%;">
+                    <input type="text" value="${url}" placeholder="URL..." onchange="updateTBTaskData('${clientId}', '${taskId}', '${field}', this.value)" ${disabledStr} style="margin:0; flex:1;">
+                    ${linkBtn}
+                </div>
+            `;
         }
 
         function renderTaskBoard() {
@@ -1113,8 +1120,8 @@
                             ${statusOpts.replace(`value="${currentStatus}"`, `value="${currentStatus}" selected`)}
                         </select>
                     </td>
-                    <td><input type="text" value="${t.data.linkGrabacion?.url || ''}" placeholder="URL..." onchange="updateTBTaskData('${t.clientId}', '${t.id}', 'linkGrabacion', this.value)" ${disabledStr}></td>
-                    <td><input type="text" value="${t.data.linkAprobado?.url || ''}" placeholder="URL..." onchange="updateTBTaskData('${t.clientId}', '${t.id}', 'linkAprobado', this.value)" ${disabledStr}></td>
+                    <td>${renderLinkInput(t.clientId, t.id, 'linkGrabacion', t.data.linkGrabacion?.url || '', disabledStr)}</td>
+                    <td>${renderLinkInput(t.clientId, t.id, 'linkAprobado', t.data.linkAprobado?.url || '', disabledStr)}</td>
                     <td><input type="date" value="${t.deliveryDate || ''}" onchange="updateTBTaskData('${t.clientId}', '${t.id}', 'deliveryDate', this.value)" ${disabledStr}></td>
                     <td><input type="text" value="${t.feedback || ''}" placeholder="Feedback..." onchange="updateTBTaskData('${t.clientId}', '${t.id}', 'feedback', this.value)" ${disabledStr}></td>
                     <td><input type="date" value="${t.adjDate || ''}" onchange="updateTBTaskData('${t.clientId}', '${t.id}', 'adjDate', this.value)" ${disabledStr}></td>
@@ -1218,6 +1225,9 @@
 
                 const row = document.createElement('div');
                 row.className = 'client-list-item';
+                
+                let linkHref = c.trackingLink ? (c.trackingLink.startsWith('http') ? c.trackingLink : 'https://'+c.trackingLink) : '';
+
                 row.innerHTML = `
                     <div style="flex:1;">
                         <div style="display:flex; align-items:center; flex-wrap: wrap; gap: 10px;">
@@ -1230,7 +1240,7 @@
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                        ${c.trackingLink ? `<a href="${c.trackingLink}" target="_blank" style="text-decoration:none; padding:10px 20px; border-radius:999px; background: rgba(37,99,235,0.2); border:1px solid rgba(37,99,235,0.4); color:#fff; font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; transition:0.2s;">
+                        ${c.trackingLink ? `<a href="${linkHref}" target="_blank" title="Abrir enlace" style="text-decoration:none; padding:10px 20px; border-radius:999px; background: rgba(37,99,235,0.2); border:1px solid rgba(37,99,235,0.4); color:#fff; font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; transition:0.2s;">
                             <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor; margin-right:5px; vertical-align:middle;"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg> tracking
                         </a>` : ''}
                         <button onclick="openEditClientModal('${c.id}')" style="background:transparent; border-color:rgba(255,255,255,0.2);">
@@ -1345,10 +1355,22 @@
         }
 
         // === TASK MODAL LOGIC ===
+        function renderModalLinkInput(wrapperId, inputId, labelText, userText, url, fieldName) {
+            const linkHref = url ? (url.startsWith('http') ? url : 'https://'+url) : '';
+            const linkBtn = url ? `<a href="${linkHref}" target="_blank" title="Abrir enlace" class="link-btn"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a>` : '';
+            
+            document.getElementById(wrapperId).innerHTML = `
+                <label class="secondary-text" style="display:block; margin-bottom:5px;">${labelText} <span>${userText}</span></label>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="text" id="${inputId}" placeholder="URL..." style="margin:0; flex:1;" value="${url}" onchange="saveTaskDataModal('${fieldName}', this.value)">
+                    ${linkBtn}
+                </div>
+            `;
+        }
+
         function openTaskModal(taskId = null, day = null) {
             const month = document.getElementById('task-month-selector').value;
             
-            // Unselect all chips
             selectedAssignees = [];
             document.querySelectorAll('.assignee-chip').forEach(el => el.classList.remove('selected'));
 
@@ -1362,6 +1384,9 @@
                 document.getElementById('task-input-date-display').value = day ? `${month} ${day}, ${currentYear}` : 'Standalone Task';
                 document.getElementById('task-edit-history').style.display = 'none';
                 document.getElementById('btn-delete-client-task').style.display = 'none';
+                
+                renderModalLinkInput('task-link-rec-wrapper', 'task-link-rec', 'Recording Link', '', '', 'linkGrabacion');
+                renderModalLinkInput('task-link-app-wrapper', 'task-link-app', 'Approved Link', '', '', 'linkAprobado');
             } else {
                 const client = clients.find(c => c.id === activeClientIdForPanel);
                 const task = client.tasks.find(t => t.id === taskId);
@@ -1393,14 +1418,14 @@
                 const hasRec = task.history.some(h => h.status === 'Recording Finished');
                 const hasApp = task.history.some(h => h.status === 'Approved');
                 
-                document.getElementById('task-link-rec-group').className = `input-group ${hasRec ? 'active' : ''}`;
-                document.getElementById('task-link-app-group').className = `input-group ${hasApp ? 'active' : ''}`;
+                document.getElementById('task-link-rec-wrapper').className = `input-group ${hasRec ? 'active' : ''}`;
+                document.getElementById('task-link-app-wrapper').className = `input-group ${hasApp ? 'active' : ''}`;
                 
-                document.getElementById('task-link-rec').value = task.data.linkGrabacion ? task.data.linkGrabacion.url : '';
-                document.getElementById('lbl-rec-user').innerText = task.data.linkGrabacion ? `(by ${task.data.linkGrabacion.user})` : '';
+                const recUser = task.data.linkGrabacion ? `(by ${task.data.linkGrabacion.user})` : '';
+                const appUser = task.data.linkAprobado ? `(by ${task.data.linkAprobado.user})` : '';
                 
-                document.getElementById('task-link-app').value = task.data.linkAprobado ? task.data.linkAprobado.url : '';
-                document.getElementById('lbl-app-user').innerText = task.data.linkAprobado ? `(by ${task.data.linkAprobado.user})` : '';
+                renderModalLinkInput('task-link-rec-wrapper', 'task-link-rec', 'Recording Link', recUser, task.data.linkGrabacion?.url || '', 'linkGrabacion');
+                renderModalLinkInput('task-link-app-wrapper', 'task-link-app', 'Approved Link', appUser, task.data.linkAprobado?.url || '', 'linkAprobado');
                 
                 document.getElementById('btn-delete-client-task').style.display = 'inline-flex';
 
@@ -1467,14 +1492,8 @@
             task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
-                // Instantly update UI without closing
                 document.getElementById('task-new-status').value = '';
-                
-                let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
-                document.getElementById('task-status-timeline').innerHTML = historyHTML;
-                
-                if(status === 'Recording Finished') document.getElementById('task-link-rec-group').classList.add('active');
-                if(status === 'Approved') document.getElementById('task-link-app-group').classList.add('active');
+                openTaskModal(taskId); 
             });
         }
 
@@ -1501,7 +1520,7 @@
             });
         }
 
-        // === CONTENT GRID PDF (CALENDAR VIEW) ===
+        // === CONTENT GRID PDF ===
         function generateGridPDF() {
             const client = clients.find(c => c.id === activeClientIdForPanel);
             const monthName = document.getElementById('task-month-selector').value;
