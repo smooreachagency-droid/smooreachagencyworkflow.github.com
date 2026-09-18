@@ -96,7 +96,7 @@
         h1, h2, h3 { font-weight: 500; letter-spacing: -0.04em; text-transform: lowercase; margin-bottom: 20px; }
         .secondary-text { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 500; }
 
-        /* LAYOUT & COMPONENTS */
+        /* LAYOUT & COMPONENTS (GLASSMORPHISM) */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; position: relative; }
 
         button {
@@ -271,11 +271,10 @@
         .chat-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #fff; transition: 0.2s; text-decoration: none; }
         .chat-btn:hover { background: rgba(255,255,255,0.2); box-shadow: var(--glow-hover); }
 
-        /* AVATARS (50 Total) */
+        /* AVATARS (70 Total) */
         .avatar-box { width: 40px; height: 40px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
         .avatar-box.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
-        .avatar-style-base { background-size: cover; background-position: center; }
-
+        
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 300; justify-content: center; align-items: center; backdrop-filter: blur(20px); }
         .modal-content { padding: 40px; width: 90%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
         
@@ -318,6 +317,7 @@
             .client-list-item button, .client-list-item a { flex: 1; text-align: center; }
             .side-panel { padding: 20px; right: -100vw; max-width: 100vw; border-radius: 0; }
             .invoice-card { padding: 20px; }
+            .inv-item-row { grid-template-columns: 1fr; gap: 10px; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: var(--glass-border); }
             .modal-content { padding: 25px; width: 95%; }
             .calendar-day { min-height: 70px; padding: 5px; }
             .day-num { font-size: 11px; }
@@ -327,7 +327,7 @@
         }
     </style>
     
-    <!-- GENERATE AVATAR CSS DYNAMICALLY (50 Total) -->
+    <!-- GENERATE AVATAR CSS DYNAMICALLY (70 Total) -->
     <style id="avatar-dynamic-css"></style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -341,9 +341,15 @@
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
-                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)` 
+                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
+                `radial-gradient(CSS_COL 1px, transparent 1px)`, 
+                `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
+                `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
+                `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
             ];
-            const sizes = ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "8px 8px"];
+            
+            const sizes = ["60%", "60%", "70%", "60%", "60%", "60%", "60%", "60%", "60%", "8px 8px", "6px 6px", "auto", "auto", "auto"];
+
             const bases = [
                 { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, 
                 { bg: "#fff", colSVG: "%23000000", colCSS: "rgba(0,0,0,0.7)" }, 
@@ -357,10 +363,15 @@
             bases.forEach(b => {
                 patterns.forEach((p, i) => {
                     let formattedPattern = p.replace(/COLOR/g, b.colSVG).replace(/CSS_COL/g, b.colCSS);
-                    let backgroundRule = b.bg.includes('gradient') 
-                        ? `background: ${formattedPattern}, ${b.bg};` 
-                        : `background-color: ${b.bg}; background-image: ${formattedPattern};`;
-                    css += `.av-${idx} { ${backgroundRule} background-size: ${sizes[i]}; background-position: center; }\n`;
+                    let size = sizes[i];
+                    let repeat = i < 9 ? "no-repeat" : "repeat";
+                    
+                    if (b.bg.includes('gradient')) {
+                        let sizeStr = i < 9 ? `${size}, cover` : `${size}, cover`;
+                        css += `.av-${idx} { background-image: ${formattedPattern}, ${b.bg}; background-size: ${sizeStr}; background-position: center, center; background-repeat: ${repeat}, no-repeat; }\n`;
+                    } else {
+                        css += `.av-${idx} { background-color: ${b.bg}; background-image: ${formattedPattern}; background-size: ${size}; background-position: center; background-repeat: ${repeat}; }\n`;
+                    }
                     idx++;
                 });
             });
@@ -401,7 +412,8 @@
             
             <div class="user-dropdown">
                 <button class="user-btn" onclick="toggleDropdown()">
-                    <div id="header-avatar" class="avatar-style-base" style="display:none;"></div>
+                    <div id="header-avatar" style="display:none;"></div>
+                    <svg id="header-svg-user" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     <span id="header-username" class="secondary-text">no user</span>
                 </button>
                 <div id="user-dropdown-menu" class="dropdown-content">
@@ -610,6 +622,7 @@
                         <option value="To Publish">To Publish</option>
                         <option value="Published">Published</option>
                     </select>
+                    <button onclick="updateTaskStatus()" style="flex: 1; min-width: 80px;">add</button>
                 </div>
                 <p id="task-readonly-msg" class="secondary-text" style="display:none; color:#ff4d4d; margin-top:10px;">Only assigned users can update the status.</p>
 
@@ -685,9 +698,9 @@
             </select>
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-50)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
             
@@ -707,9 +720,9 @@
             <p class="secondary-text" style="margin:20px 0 12px;">new pin (optional)</p>
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
-            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-50)</p>
+            <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
             <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
-                <script>for(let i=1; i<=50; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
+                <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
 
@@ -854,7 +867,7 @@
 
         function selectAvatar(mode, id) {
             document.getElementById(`selected-avatar-${mode}`).value = id;
-            for(let i=1; i<=50; i++){
+            for(let i=1; i<=70; i++){
                 const box = document.getElementById(`av-${mode}-${i}`);
                 if(box) box.classList.remove('selected');
             }
@@ -961,7 +974,12 @@
                     document.getElementById('my-profile-btn').style.display = 'inline-flex';
                     document.getElementById('chatbot-trigger').style.display = 'flex';
                     closeModal('login-modal');
+                    
+                    // LIMPIAR LA BARRA DE BÚSQUEDA Y FILTROS DEL CLIENT DIRECTORY AL INICIAR SESIÓN
+                    document.getElementById('client-search-input').value = '';
+                    document.getElementById('client-category-filter').value = '';
                     renderClientsList();
+                    
                     if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
                 });
             } else { alert("Invalid PIN."); }
@@ -973,6 +991,7 @@
                     currentProfile = null;
                     document.getElementById('header-username').innerText = "no user";
                     document.getElementById('header-avatar').style.display = 'none';
+                    document.getElementById('header-svg-user').style.display = 'inline-block';
                     document.getElementById('lock-screen').classList.remove('hidden');
                     document.getElementById('logout-btn').style.display = 'none';
                     document.getElementById('my-profile-btn').style.display = 'none';
@@ -1371,6 +1390,7 @@
         function openTaskModal(taskId = null, day = null) {
             const month = document.getElementById('task-month-selector').value;
             
+            // Unselect all chips
             selectedAssignees = [];
             document.querySelectorAll('.assignee-chip').forEach(el => el.classList.remove('selected'));
 
@@ -1493,7 +1513,12 @@
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
                 document.getElementById('task-new-status').value = '';
-                openTaskModal(taskId); 
+                
+                let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
+                document.getElementById('task-status-timeline').innerHTML = historyHTML;
+                
+                if(status === 'Recording Finished') document.getElementById('task-link-rec-wrapper').classList.add('active');
+                if(status === 'Approved') document.getElementById('task-link-app-wrapper').classList.add('active');
             });
         }
 
@@ -1505,6 +1530,12 @@
             
             task.data[field] = { url: value, user: currentProfile.name };
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks });
+            
+            // Re-render specifically to show the new link button immediately
+            const recUser = task.data.linkGrabacion ? `(by ${task.data.linkGrabacion.user})` : '';
+            const appUser = task.data.linkAprobado ? `(by ${task.data.linkAprobado.user})` : '';
+            renderModalLinkInput('task-link-rec-wrapper', 'task-link-rec', 'Recording Link', recUser, task.data.linkGrabacion?.url || '', 'linkGrabacion');
+            renderModalLinkInput('task-link-app-wrapper', 'task-link-app', 'Approved Link', appUser, task.data.linkAprobado?.url || '', 'linkAprobado');
         }
 
         function deleteClientTask() {
@@ -1520,7 +1551,7 @@
             });
         }
 
-        // === CONTENT GRID PDF ===
+        // === CONTENT GRID PDF (CALENDAR VIEW) ===
         function generateGridPDF() {
             const client = clients.find(c => c.id === activeClientIdForPanel);
             const monthName = document.getElementById('task-month-selector').value;
@@ -1607,7 +1638,7 @@
             if(!client) return alert("Client name is required for the invoice.");
 
             const currencySel = document.getElementById('inv-currency').value;
-            const currencySymbol = currencySel === 'USD' ? '$' : 'COP $';
+            const currencySymbol = currencySel === 'USD' ? '$' : 'COP$';
 
             document.getElementById('print-id').innerText = "SMOO-" + Math.floor(Math.random() * 10000);
             document.getElementById('print-date').innerText = new Date().toLocaleDateString();
