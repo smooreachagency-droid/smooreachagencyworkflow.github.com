@@ -141,7 +141,7 @@
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
 
-        /* USER DROPDOWN, AVATAR & ONLINE STATUS */
+        /* USER DROPDOWN & AVATAR */
         .user-dropdown { position: relative; display: inline-block; }
         .user-btn { display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: transparent; border: none; box-shadow: none; }
         .user-btn:hover { background: rgba(255,255,255,0.05); transform: none; box-shadow: none; }
@@ -151,11 +151,11 @@
         .dropdown-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.1); box-shadow: var(--glow-hover); }
         .add-user-btn { width: 100%; border: none; background: rgba(255,255,255,0.03); margin-top: 10px; }
         
-        #header-avatar { display: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
+        #header-avatar { display: none; width: 42px; height: 42px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px; }
 
         .avatar-wrapper { position: relative; display: inline-block; }
         .online-dot { 
-            position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; 
+            position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; 
             background-color: #22c55e; border-radius: 50%; border: 2px solid var(--bg-base);
             box-shadow: 0 0 10px #22c55e; z-index: 2;
         }
@@ -272,9 +272,10 @@
         .chat-btn:hover { background: rgba(255,255,255,0.2); box-shadow: var(--glow-hover); }
 
         /* AVATARS (70 Total) */
-        .avatar-box { width: 40px; height: 40px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
+        .avatar-box { width: 48px; height: 48px; border-radius: 50%; display: inline-block; transition: 0.3s; border: 2px solid transparent; background-color: transparent; }
         .avatar-box.selected { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
-        
+        .avatar-style-base { background-size: cover; background-position: center; }
+
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); z-index: 300; justify-content: center; align-items: center; backdrop-filter: blur(20px); }
         .modal-content { padding: 40px; width: 90%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
         
@@ -332,23 +333,35 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const patterns = [
+                // 1. Y2K Star
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z'/%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='25' stroke='COLOR' stroke-width='4' fill='none'/%3E%3Cellipse cx='50' cy='50' rx='40' ry='8' stroke='COLOR' stroke-width='2' fill='none' transform='rotate(-20 50 50)'/%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='20' cy='30' r='4' fill='COLOR'/%3E%3Ccircle cx='70' cy='20' r='6' fill='COLOR'/%3E%3Ccircle cx='40' cy='70' r='3' fill='COLOR'/%3E%3Ccircle cx='80' cy='80' r='5' fill='COLOR'/%3E%3Ccircle cx='15' cy='80' r='2' fill='COLOR'/%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='COLOR' stroke-width='10' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='18' fill='none' stroke='COLOR' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='10' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 2. Arroba (@)
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='60' font-weight='bold' fill='COLOR' font-family='sans-serif'%3E%40%3C/text%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='12' fill='COLOR'/%3E%3Cpath stroke='COLOR' stroke-width='4' stroke-linecap='round' fill='none' d='M50 50 Q20 30 15 50 M50 50 Q20 50 15 70 M50 50 Q30 70 25 85 M50 50 Q30 10 25 15 M50 50 Q80 30 85 50 M50 50 Q80 50 85 70 M50 50 Q70 70 75 85 M50 50 Q70 10 75 15'/%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 15 L65 40 L65 75 L50 65 L35 75 L35 40 Z'/%3E%3Cpath fill='COLOR' opacity='0.5' d='M25 85 L35 65 L35 75 Z M75 85 L65 65 L65 75 Z'/%3E%3Ccircle cx='50' cy='45' r='8' fill='none' stroke='COLOR' stroke-width='3' opacity='0.8'/%3E%3C/svg%3E")`,
-                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='COLOR' d='M50 10 Q50 50 90 50 Q50 50 50 90 Q50 50 10 50 Q50 50 50 10 Z'/%3E%3C/svg%3E")`,
+                // 3. Asterisk
                 `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='COLOR' stroke-width='10' stroke-linecap='round'%3E%3Cline x1='50' y1='25' x2='50' y2='75'/%3E%3Cline x1='28' y1='37' x2='72' y2='63'/%3E%3Cline x1='28' y1='63' x2='72' y2='37'/%3E%3C/g%3E%3C/svg%3E")`,
-                `linear-gradient(CSS_COL 1px, transparent 1px), linear-gradient(90deg, CSS_COL 1px, transparent 1px)`, 
-                `radial-gradient(CSS_COL 1px, transparent 1px)`, 
-                `repeating-linear-gradient(45deg, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-radial-gradient(circle at center, transparent, transparent 4px, CSS_COL 4px, CSS_COL 8px)`, 
-                `repeating-linear-gradient(180deg, CSS_COL, CSS_COL 2px, transparent 2px, transparent 6px)` 
+                // 4. Hexagon Core (Sci-fi)
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,15 85,35 85,65 50,85 15,65 15,35' fill='none' stroke='COLOR' stroke-width='5'/%3E%3Cpolygon points='50,30 70,42 70,58 50,70 30,58 30,42' fill='none' stroke='COLOR' stroke-width='3' opacity='0.7'/%3E%3Ccircle cx='50' cy='50' r='6' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 5. Radar / HUD
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='COLOR' stroke-width='4' stroke-dasharray='20 10 5 10'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='COLOR' stroke-width='2' opacity='0.6'/%3E%3Cline x1='50' y1='10' x2='50' y2='90' stroke='COLOR' stroke-width='2' opacity='0.8'/%3E%3Cline x1='10' y1='50' x2='90' y2='50' stroke='COLOR' stroke-width='2' opacity='0.8'/%3E%3C/svg%3E")`,
+                // 6. Isometric Cube
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,20 80,35 80,65 50,80 20,65 20,35' fill='none' stroke='COLOR' stroke-width='4'/%3E%3Cpolyline points='20,35 50,50 80,35' fill='none' stroke='COLOR' stroke-width='4'/%3E%3Cline x1='50' y1='50' x2='50' y2='80' stroke='COLOR' stroke-width='4'/%3E%3C/svg%3E")`,
+                // 7. Orbit Rings
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='50' rx='40' ry='15' fill='none' stroke='COLOR' stroke-width='3' transform='rotate(45 50 50)'/%3E%3Cellipse cx='50' cy='50' rx='40' ry='15' fill='none' stroke='COLOR' stroke-width='3' transform='rotate(-45 50 50)'/%3E%3Ccircle cx='50' cy='50' r='10' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 8. Nested Triangles
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,15 85,75 15,75' fill='none' stroke='COLOR' stroke-width='5'/%3E%3Cpolygon points='50,35 70,70 30,70' fill='none' stroke='COLOR' stroke-width='3' opacity='0.7'/%3E%3Cpolygon points='50,55 60,65 40,65' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 9. Chevron Up
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolyline points='25,65 50,40 75,65' fill='none' stroke='COLOR' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpolyline points='25,85 50,60 75,85' fill='none' stroke='COLOR' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/%3E%3Cpolyline points='25,45 50,20 75,45' fill='none' stroke='COLOR' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' opacity='0.2'/%3E%3C/svg%3E")`,
+                // 10. Data Frequencies
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='20' y='40' width='8' height='40' fill='COLOR' rx='4'/%3E%3Crect x='35' y='20' width='8' height='60' fill='COLOR' rx='4' opacity='0.8'/%3E%3Crect x='50' y='50' width='8' height='30' fill='COLOR' rx='4' opacity='0.6'/%3E%3Crect x='65' y='30' width='8' height='50' fill='COLOR' rx='4' opacity='0.9'/%3E%3Crect x='80' y='60' width='8' height='20' fill='COLOR' rx='4' opacity='0.5'/%3E%3C/svg%3E")`,
+                // 11. Diamond Crosshair
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 90,50 50,90 10,50' fill='none' stroke='COLOR' stroke-width='4'/%3E%3Cline x1='50' y1='20' x2='50' y2='80' stroke='COLOR' stroke-width='2' stroke-dasharray='5 5'/%3E%3Cline x1='20' y1='50' x2='80' y2='50' stroke='COLOR' stroke-width='2' stroke-dasharray='5 5'/%3E%3Crect x='45' y='45' width='10' height='10' fill='COLOR'/%3E%3C/svg%3E")`,
+                // 12. Portal Semicircles
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 50 A30 30 0 0 1 50 20' fill='none' stroke='COLOR' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M80 50 A30 30 0 0 1 50 80' fill='none' stroke='COLOR' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='35' cy='35' r='5' fill='COLOR'/%3E%3Ccircle cx='65' cy='65' r='5' fill='COLOR' opacity='0.6'/%3E%3C/svg%3E")`,
+                // 13. Circuit Nodes
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='30' cy='30' r='6' fill='COLOR'/%3E%3Ccircle cx='70' cy='70' r='6' fill='COLOR'/%3E%3Ccircle cx='70' cy='30' r='4' fill='COLOR' opacity='0.5'/%3E%3Cpolyline points='30,30 30,70 70,70' fill='none' stroke='COLOR' stroke-width='3' stroke-linejoin='round'/%3E%3Cline x1='70' y1='30' x2='50' y2='30' stroke='COLOR' stroke-width='2' stroke-dasharray='4 4'/%3E%3C/svg%3E")`,
+                // 14. Abstract Brackets
+                `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolyline points='35,20 20,20 20,80 35,80' fill='none' stroke='COLOR' stroke-width='6' stroke-linecap='square'/%3E%3Cpolyline points='65,20 80,20 80,80 65,80' fill='none' stroke='COLOR' stroke-width='6' stroke-linecap='square' opacity='0.6'/%3E%3Ccircle cx='50' cy='50' r='8' fill='COLOR'/%3E%3C/svg%3E")`
             ];
-            
-            const sizes = ["60%", "60%", "70%", "60%", "60%", "60%", "60%", "60%", "60%", "8px 8px", "6px 6px", "auto", "auto", "auto"];
 
             const bases = [
                 { bg: "#000", colSVG: "%23ffffff", colCSS: "rgba(255,255,255,0.7)" }, 
@@ -363,14 +376,11 @@
             bases.forEach(b => {
                 patterns.forEach((p, i) => {
                     let formattedPattern = p.replace(/COLOR/g, b.colSVG).replace(/CSS_COL/g, b.colCSS);
-                    let size = sizes[i];
-                    let repeat = i < 9 ? "no-repeat" : "repeat";
                     
                     if (b.bg.includes('gradient')) {
-                        let sizeStr = i < 9 ? `${size}, cover` : `${size}, cover`;
-                        css += `.av-${idx} { background-image: ${formattedPattern}, ${b.bg}; background-size: ${sizeStr}; background-position: center, center; background-repeat: ${repeat}, no-repeat; }\n`;
+                        css += `.av-${idx} { background-image: ${formattedPattern}, ${b.bg}; background-size: 60%, cover; background-position: center, center; background-repeat: no-repeat, no-repeat; }\n`;
                     } else {
-                        css += `.av-${idx} { background-color: ${b.bg}; background-image: ${formattedPattern}; background-size: ${size}; background-position: center; background-repeat: ${repeat}; }\n`;
+                        css += `.av-${idx} { background-color: ${b.bg}; background-image: ${formattedPattern}; background-size: 60%; background-position: center; background-repeat: no-repeat; }\n`;
                     }
                     idx++;
                 });
@@ -412,8 +422,8 @@
             
             <div class="user-dropdown">
                 <button class="user-btn" onclick="toggleDropdown()">
-                    <div id="header-avatar" style="display:none;"></div>
-                    <svg id="header-svg-user" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    <div id="header-avatar" class="avatar-style-base" style="display:none; width: 42px; height: 42px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); margin-right: 5px;"></div>
+                    <svg id="header-svg-user" viewBox="0 0 24 24" style="width:24px; height:24px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     <span id="header-username" class="secondary-text">no user</span>
                 </button>
                 <div id="user-dropdown-menu" class="dropdown-content">
@@ -699,7 +709,7 @@
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
             <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
                 <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
@@ -721,7 +731,7 @@
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
             <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
                 <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
@@ -944,7 +954,7 @@
                 const onlineDot = p.isOnline ? '<div class="online-dot" title="Online"></div>' : '';
                 div.innerHTML = `
                     <div class="avatar-wrapper">
-                        <div class="avatar-box avatar-style-base av-${p.avatar}" style="width:30px;height:30px; border:1px solid rgba(255,255,255,0.2);"></div>
+                        <div class="avatar-box avatar-style-base av-${p.avatar}" style="width:38px;height:38px; border:1px solid rgba(255,255,255,0.2);"></div>
                         ${onlineDot}
                     </div> 
                     <div><div style="font-weight:500; font-size:13px;">${p.name}</div><div class="secondary-text" style="font-size:10px;">${p.role}</div></div>
@@ -975,7 +985,7 @@
                     document.getElementById('chatbot-trigger').style.display = 'flex';
                     closeModal('login-modal');
                     
-                    // LIMPIAR LA BARRA DE BÚSQUEDA Y FILTROS DEL CLIENT DIRECTORY AL INICIAR SESIÓN
+                    // FIX: Make sure search is totally clear and doesn't auto-filter
                     document.getElementById('client-search-input').value = '';
                     document.getElementById('client-category-filter').value = '';
                     renderClientsList();
@@ -1512,6 +1522,7 @@
             task.history.push({ status: status, user: currentProfile.name, date: new Date().toLocaleDateString() });
             
             db.collection("clients").doc(client.id).update({ tasks: updatedTasks }).then(() => {
+                // Instantly update UI without closing
                 document.getElementById('task-new-status').value = '';
                 
                 let historyHTML = task.history.map(h => `<div class="status-item">→ <b>${h.status}</b> <span style="opacity:0.6;">(${h.date} by ${h.user})</span></div>`).join('');
@@ -1551,7 +1562,7 @@
             });
         }
 
-        // === CONTENT GRID PDF (CALENDAR VIEW) ===
+        // === CONTENT GRID PDF ===
         function generateGridPDF() {
             const client = clients.find(c => c.id === activeClientIdForPanel);
             const monthName = document.getElementById('task-month-selector').value;
