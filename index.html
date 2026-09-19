@@ -141,7 +141,7 @@
         .logo-text { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.05em; text-transform: lowercase; line-height: 1.2; }
         nav { display: flex; gap: 10px; align-items: center; }
 
-        /* USER DROPDOWN & AVATAR */
+        /* USER DROPDOWN, AVATAR & ONLINE STATUS */
         .user-dropdown { position: relative; display: inline-block; }
         .user-btn { display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: transparent; border: none; box-shadow: none; }
         .user-btn:hover { background: rgba(255,255,255,0.05); transform: none; box-shadow: none; }
@@ -471,6 +471,12 @@
                             <label class="secondary-text" style="margin-right:10px; display:block; margin-bottom:5px;">Viewing Taskboard for:</label>
                             <select id="taskboard-user-select" onchange="renderTaskBoard()" style="width:auto; min-width:200px; margin:0;"></select>
                         </div>
+                        <div>
+                            <label class="secondary-text" style="margin-right:10px; display:block; margin-bottom:5px;">Filter by Client:</label>
+                            <select id="taskboard-client-filter" onchange="renderTaskBoard()" style="width:auto; min-width:200px; margin:0;">
+                                <option value="">All Clients</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 
@@ -709,7 +715,7 @@
             <input type="password" id="new-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
             <p class="secondary-text" style="margin:20px 0 12px;">select aesthetic avatar (1-70)</p>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
                 <script>for(let i=1; i<=70; i++) document.write(`<div id="av-create-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('create', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-create" value="1">
@@ -731,7 +737,7 @@
             <input type="password" id="edit-prof-pin" placeholder="4-Digit PIN" maxlength="4">
             
             <p class="secondary-text" style="margin:20px 0 12px;">select avatar (1-70)</p>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 35px; max-height: 250px; overflow-y: auto; padding-right:10px;">
                 <script>for(let i=1; i<=70; i++) document.write(`<div id="av-edit-${i}" class="avatar-box avatar-style-base av-${i}" style="cursor:pointer;" onclick="selectAvatar('edit', ${i})"></div>`);</script>
             </div>
             <input type="hidden" id="selected-avatar-edit" value="1">
@@ -850,6 +856,7 @@
             clients = [];
             snapshot.forEach(doc => clients.push({ id: doc.id, ...doc.data() }));
             renderClientsList();
+            updateTaskboardClientDropdown();
             
             if(document.getElementById('tab-taskboard').classList.contains('active')) renderTaskBoard();
 
@@ -883,6 +890,18 @@
             }
             const activeBox = document.getElementById(`av-${mode}-${id}`);
             if(activeBox) activeBox.classList.add('selected');
+        }
+
+        // === TASKBOARD CLIENT FILTER LOGIC ===
+        function updateTaskboardClientDropdown() {
+            const dropdown = document.getElementById('taskboard-client-filter');
+            if(!dropdown) return;
+            const currentVal = dropdown.value;
+            let html = '<option value="">All Clients</option>';
+            clients.forEach(c => {
+                html += `<option value="${c.id}" ${currentVal === c.id ? 'selected' : ''}>${c.name}</option>`;
+            });
+            dropdown.innerHTML = html;
         }
 
         // === MULTI-STATUS FILTER LOGIC ===
@@ -985,7 +1004,6 @@
                     document.getElementById('chatbot-trigger').style.display = 'flex';
                     closeModal('login-modal');
                     
-                    // FIX: Make sure search is totally clear and doesn't auto-filter
                     document.getElementById('client-search-input').value = '';
                     document.getElementById('client-category-filter').value = '';
                     renderClientsList();
@@ -1102,6 +1120,7 @@
         function renderTaskBoard() {
             const tbody = document.getElementById('task-board-body');
             const userSelect = document.getElementById('taskboard-user-select');
+            const clientFilterInput = document.getElementById('taskboard-client-filter');
             
             if(userSelect.options.length === 0) {
                 profiles.forEach(p => {
@@ -1113,6 +1132,7 @@
             
             tbody.innerHTML = '';
             const viewingUserId = userSelect.value;
+            const clientFilterValue = clientFilterInput ? clientFilterInput.value : "";
             const viewingUser = profiles.find(p => p.id === viewingUserId);
             if(!viewingUser) return;
 
@@ -1121,6 +1141,7 @@
 
             let assignedTasks = [];
             clients.forEach(c => {
+                if(clientFilterValue !== "" && c.id !== clientFilterValue) return;
                 if(!c.tasks) return;
                 c.tasks.forEach(t => {
                     const assignees = Array.isArray(t.assignedTo) ? t.assignedTo : (t.assignedTo ? [t.assignedTo] : []);
